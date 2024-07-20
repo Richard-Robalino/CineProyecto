@@ -25,10 +25,9 @@ public class AdminWindow extends JFrame {
         btnGestionarHorarios = new JButton("Gestionar Horarios");
         btnGestionarHorarios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para abrir la ventana de gestión de horarios
-                // Ejemplo:
-                // GestionHorarios ventanaGestionHorarios = new GestionHorarios();
-                // ventanaGestionHorarios.setVisible(true);
+                GestionHorarios ventanaGestionHorarios = new GestionHorarios(AdminWindow.this);
+                ventanaGestionHorarios.setVisible(true);
+                dispose();
             }
         });
         add(btnGestionarHorarios);
@@ -36,10 +35,10 @@ public class AdminWindow extends JFrame {
         btnVerEstadisticas = new JButton("Ver Estadísticas");
         btnVerEstadisticas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para ver estadísticas de ocupación y ventas
-                // Ejemplo:
-                // VerEstadisticas ventanaVerEstadisticas = new VerEstadisticas();
-                // ventanaVerEstadisticas.setVisible(true);
+
+                VerEstadisticas ventanaVerEstadisticas = new VerEstadisticas(AdminWindow.this);
+                ventanaVerEstadisticas.setVisible(true);
+                dispose();
             }
         });
         add(btnVerEstadisticas);

@@ -15,11 +15,11 @@
             {
                 "inSelectionMode": false,
                 "selectionStart": {
-                    "lineNumber": 62,
+                    "lineNumber": 78,
                     "column": 1
                 },
                 "position": {
-                    "lineNumber": 62,
+                    "lineNumber": 78,
                     "column": 1
                 }
             }
@@ -27,10 +27,10 @@
         "viewState": {
             "scrollLeft": 0,
             "firstPosition": {
-                "lineNumber": 55,
+                "lineNumber": 53,
                 "column": 1
             },
-            "firstPositionDeltaTop": 48
+            "firstPositionDeltaTop": -22
         },
         "contributionsState": {
             "editor.contrib.folding": {},
@@ -48,7 +48,7 @@
                     "text": [
                         {
                             "type": 2,
-                            "content": "Welcome to the MySQL Shell - DB Notebook.\n\nPress Ctrl+Enter to execute the code block.\n\nExecute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\nExecute \\help or \\? for help;Welcome to the MySQL Shell - DB Notebook.\n\nPress Ctrl+Enter to execute the code block.\n\nExecute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\nExecute \\help or \\? for help;",
+                            "content": "Welcome to the MySQL Shell - DB Notebook.\n\nPress Ctrl+Enter to execute the code block.\n\nExecute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\nExecute \\help or \\? for help;Welcome to the MySQL Shell - DB Notebook.\n\nPress Ctrl+Enter to execute the code block.\n\nExecute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\nExecute \\help or \\? for help;Welcome to the MySQL Shell - DB Notebook.\n\nPress Ctrl+Enter to execute the code block.\n\nExecute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\nExecute \\help or \\? for help;",
                             "language": "ansi"
                         }
                     ]
@@ -80,38 +80,38 @@
                         {
                             "type": 4,
                             "index": 0,
-                            "resultId": "cfe1d5ed-d44b-4f39-c152-d1b1fac309d0",
-                            "content": "OK, 1 row affected in 162.64ms"
+                            "resultId": "4453ff98-0008-4a24-e0ab-86adecef950a",
+                            "content": "OK, 1 row affected in 181.831ms"
                         },
                         {
                             "type": 4,
                             "index": 1,
-                            "resultId": "3ab9feb4-ed22-4b80-9fc4-5972bf704166",
-                            "content": "OK, 0 records retrieved in 0s"
+                            "resultId": "b6eba6e4-bf2a-4c81-924d-3cc00ef428ab",
+                            "content": "OK, 0 records retrieved in 0.999ms"
                         },
                         {
                             "type": 4,
                             "index": 2,
-                            "resultId": "d3c39cd6-1357-4af5-f45d-337f70da107e",
-                            "content": "OK, 0 records retrieved in 665.605ms"
+                            "resultId": "9a8a7585-b0d4-40b4-cbae-8ac7301f0bc6",
+                            "content": "OK, 0 records retrieved in 1.2839102745056152s"
                         },
                         {
                             "type": 4,
                             "index": 3,
-                            "resultId": "60553798-747b-436c-b186-cc8b177b2983",
-                            "content": "OK, 0 records retrieved in 512.922ms"
+                            "resultId": "d1d6f52a-8a95-4b8e-f74d-f50ce44e4060",
+                            "content": "OK, 0 records retrieved in 577.538ms"
                         },
                         {
                             "type": 4,
                             "index": 4,
-                            "resultId": "87f8aa0b-85f3-47b3-ea28-9a34231864cc",
-                            "content": "OK, 0 records retrieved in 820.243ms"
+                            "resultId": "8cc558bf-ff68-403a-e222-bacb364ea8a5",
+                            "content": "OK, 0 records retrieved in 732.171ms"
                         },
                         {
                             "type": 4,
                             "index": 5,
-                            "resultId": "af74d4ce-950b-4061-c016-b56d1881d960",
-                            "content": "OK, 0 records retrieved in 1.0368578433990479s"
+                            "resultId": "d8498018-1b3d-49ee-f05f-538ae2343100",
+                            "content": "OK, 0 records retrieved in 987.274ms"
                         }
                     ]
                 },
@@ -237,8 +237,8 @@
                         {
                             "type": 4,
                             "index": 0,
-                            "resultId": "d74cc157-bf5d-45ff-8466-7ca6d6081184",
-                            "content": "OK, 5 rows affected in 239.447ms"
+                            "resultId": "12f30c72-a630-4c14-8256-3992321c1529",
+                            "content": "OK, 5 rows affected in 157.956ms"
                         }
                     ]
                 },
@@ -278,8 +278,8 @@
                         {
                             "type": 4,
                             "index": 0,
-                            "resultId": "f97618d0-7ee1-43ad-bfd1-abebb74985f7",
-                            "content": "OK, 5 rows affected in 279.725ms"
+                            "resultId": "1bb0999d-1fbc-4ccf-8406-5293aa2dd404",
+                            "content": "OK, 5 rows affected in 71.237ms"
                         }
                     ]
                 },
