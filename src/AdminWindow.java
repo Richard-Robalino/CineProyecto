@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
 
 public class AdminWindow extends JFrame {
     private JButton btnAgregarPelicula;
@@ -16,10 +15,9 @@ public class AdminWindow extends JFrame {
         btnAgregarPelicula = new JButton("Agregar Película");
         btnAgregarPelicula.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para abrir la ventana de agregar película
-                // Ejemplo:
-                // AgregarPelicula ventanaAgregarPelicula = new AgregarPelicula();
-                // ventanaAgregarPelicula.setVisible(true);
+                AgregarPelicula ventanaAgregarPelicula = new AgregarPelicula(AdminWindow.this);
+                ventanaAgregarPelicula.setVisible(true);
+                dispose();
             }
         });
         add(btnAgregarPelicula);
