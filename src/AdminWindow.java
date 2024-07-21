@@ -46,10 +46,10 @@ public class AdminWindow extends JFrame {
         btnGestionarClientes = new JButton("Gestionar Clientes");
         btnGestionarClientes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para abrir la ventana de gestión de clientes
-                // Ejemplo:
-                // GestionClientes ventanaGestionClientes = new GestionClientes();
-                // ventanaGestionClientes.setVisible(true);
+
+                GestionClientes ventanaGestionClientes = new GestionClientes(AdminWindow.this);
+                ventanaGestionClientes.setVisible(true);
+                dispose();
             }
         });
         add(btnGestionarClientes);

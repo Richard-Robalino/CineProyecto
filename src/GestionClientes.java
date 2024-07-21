@@ -11,7 +11,7 @@ public class GestionClientes extends JFrame {
     private JButton btnEliminarCliente;
     private JButton btnVerClientes;
     private JButton btnCancelar;
-    private AdminWindow adminWindow; // Referencia al AdminWindow
+    AdminWindow adminWindow; // Referencia al AdminWindow
 
     public GestionClientes(AdminWindow adminWindow) {
         super("Gestionar Clientes");
@@ -72,20 +72,12 @@ public class GestionClientes extends JFrame {
         });
         panelBotones.add(btnEliminarCliente);
 
-        btnVerClientes = new JButton("Ver Todos los Clientes");
-        btnVerClientes.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                actualizarTabla();
-            }
-        });
-        panelBotones.add(btnVerClientes);
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana actual
-                AdminWindow ventanaAdmin = new AdminWindow();
-                ventanaAdmin.setVisible(true); // Abre la ventana de AdminWindow
+                adminWindow.setVisible(true); // Abre la ventana de AdminWindow
             }
         });
         panelBotones.add(btnCancelar);
@@ -99,16 +91,17 @@ public class GestionClientes extends JFrame {
 
     private void actualizarTabla() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
-            String query = "SELECT * FROM usuarios WHERE rol='CLIENTE'";
+            String query = "SELECT * FROM usuarios WHERE rol='CLIENTE' OR rol='ADMINISTRADOR'";
             try (PreparedStatement pstmt = conn.prepareStatement(query);
                  ResultSet rs = pstmt.executeQuery()) {
 
-                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Username", "Password"}, 0);
+                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Username", "Password", "Rol"}, 0);
                 while (rs.next()) {
                     model.addRow(new Object[]{
                             rs.getInt("id"),
                             rs.getString("username"),
-                            rs.getString("password")
+                            rs.getString("password"),
+                            rs.getString("rol")
                     });
                 }
                 tableClientes.setModel(model);
