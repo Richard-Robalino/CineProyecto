@@ -16,10 +16,10 @@ public class ClientWindow extends JFrame {
         btnBuscarPeliculas = new JButton("Buscar Películas");
         btnBuscarPeliculas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para buscar películas disponibles
-                // Ejemplo:
-                // BuscarPeliculas ventanaBuscarPeliculas = new BuscarPeliculas();
-                // ventanaBuscarPeliculas.setVisible(true);
+
+                BuscarPeliculas ventanaBuscarPeliculas = new BuscarPeliculas();
+                ventanaBuscarPeliculas.setVisible(true);
+                dispose();
             }
         });
         add(btnBuscarPeliculas);
