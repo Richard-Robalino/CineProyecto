@@ -41,7 +41,7 @@ public class Login extends JFrame {
                 String contrasena = new String(txtContrasena.getPassword());
                 String rolSeleccionado = ((String) comboRol.getSelectedItem()).toUpperCase(); // Convertir a mayúsculas el rol seleccionado
 
-                try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
+                try (Connection conn = DriverManager.getConnection("jdbc:mysql://uay2ugsrjnta2mi8:y9THLnfvMlTlvWNwvHFU@bwtg0dxa5wyyqvep0l4u-mysql.services.clever-cloud.com:3306/bwtg0dxa5wyyqvep0l4u", "uay2ugsrjnta2mi8", "y9THLnfvMlTlvWNwvHFU")) {
                     String query = "SELECT * FROM usuarios WHERE username=? AND password=? AND rol=?";
                     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                         pstmt.setString(1, usuario);
@@ -72,7 +72,7 @@ public class Login extends JFrame {
             }
         });
 
-        setSize(300, 250); // Ajusta el tamaño de la ventana
+        setSize(700, 150); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }
