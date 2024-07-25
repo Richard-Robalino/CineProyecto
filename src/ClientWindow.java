@@ -27,10 +27,10 @@ public class ClientWindow extends JFrame {
         btnVerHorarios = new JButton("Ver Horarios");
         btnVerHorarios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para ver los horarios disponibles de una película
-                // Ejemplo:
-                // VerHorarios ventanaVerHorarios = new VerHorarios();
-                // ventanaVerHorarios.setVisible(true);
+
+                VerHorarios ventanaVerHorarios = new VerHorarios();
+                ventanaVerHorarios.setVisible(true);
+                dispose();
             }
         });
         add(btnVerHorarios);
