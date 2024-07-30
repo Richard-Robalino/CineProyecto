@@ -27,6 +27,7 @@ public class ReservarAsiento extends JFrame {
         JLabel lblPelicula = new JLabel("Seleccione una película:");
         cmbPeliculas = new JComboBox<>();
         cargarPeliculas();
+        cmbPeliculas.addActionListener(e -> seleccionarPelicula());
         pnlPelicula.add(lblPelicula);
         pnlPelicula.add(cmbPeliculas);
         pnlSeleccion.add(pnlPelicula);
@@ -64,7 +65,7 @@ public class ReservarAsiento extends JFrame {
         pnlBotones.add(btnReservar);
         add(pnlBotones, BorderLayout.SOUTH);
 
-        setSize(400, 300);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
@@ -72,10 +73,11 @@ public class ReservarAsiento extends JFrame {
     private void cargarPeliculas() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM peliculas")) {
+             ResultSet rs = stmt.executeQuery("SELECT id, titulo FROM Peliculas")) {
 
+            cmbPeliculas.addItem("Seleccione una película");
             while (rs.next()) {
-                cmbPeliculas.addItem(rs.getString("titulo"));
+                cmbPeliculas.addItem(rs.getString("titulo") + " (" + rs.getInt("id") + ")");
             }
 
         } catch (SQLException ex) {
@@ -83,18 +85,25 @@ public class ReservarAsiento extends JFrame {
         }
     }
 
+    private void seleccionarPelicula() {
+        String seleccion = (String) cmbPeliculas.getSelectedItem();
+        if (seleccion != null && !seleccion.equals("Seleccione una película")) {
+            peliculaId = Integer.parseInt(seleccion.split("\\(")[1].replace(")", ""));
+            cargarHorarios();
+        }
+    }
+
     private void cargarHorarios() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM horarios WHERE pelicula_id = ?");
-        ) {
+             PreparedStatement stmt = conn.prepareStatement("SELECT id, fecha, hora FROM Horarios WHERE pelicula_id = ?")) {
+
             stmt.setInt(1, peliculaId);
             ResultSet rs = stmt.executeQuery();
 
             cmbHorarios.removeAllItems();
+            cmbHorarios.addItem("Seleccione un horario");
             while (rs.next()) {
-                cmbHorarios.addItem(rs.getString("fecha") + " " + rs.getString("hora"));
-                // Aquí deberías decidir cómo manejar múltiples horarios si es necesario
-                horarioId = rs.getInt("id");
+                cmbHorarios.addItem(rs.getString("fecha") + " " + rs.getString("hora") + " (" + rs.getInt("id") + ")");
             }
 
         } catch (SQLException ex) {
@@ -103,26 +112,35 @@ public class ReservarAsiento extends JFrame {
     }
 
     private void verSala() {
-        cargarHorarios();
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM asientos WHERE horario_id = ?")) {
+        String seleccion = (String) cmbHorarios.getSelectedItem();
+        if (seleccion != null && !seleccion.equals("Seleccione un horario")) {
+            horarioId = Integer.parseInt(seleccion.split("\\(")[1].replace(")", ""));
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+                 PreparedStatement stmt = conn.prepareStatement("SELECT a.fila, a.numero, a.disponible FROM Asientos a JOIN Horarios h ON a.sala_id = h.sala_id WHERE h.id = ?")) {
 
-            stmt.setInt(1, horarioId);
-            ResultSet rs = stmt.executeQuery();
+                stmt.setInt(1, horarioId);
+                ResultSet rs = stmt.executeQuery();
 
-            modelo.setRowCount(0);
-            while (rs.next()) {
-                Object[] fila = new Object[3];
-                fila[0] = rs.getString("fila");
-                fila[1] = rs.getString("asiento");
-                fila[2] = rs.getBoolean("disponible") ? "Sí" : "No";
-                modelo.addRow(fila);
+                modelo.setRowCount(0);
+                while (rs.next()) {
+                    Object[] fila = new Object[3];
+                    fila[0] = rs.getString("fila");
+                    fila[1] = rs.getInt("numero");
+                    fila[2] = rs.getBoolean("disponible") ? "Sí" : "No";
+                    modelo.addRow(fila);
+                }
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al ver sala: " + ex.getMessage());
             }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al ver sala: " + ex.getMessage());
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un horario primero");
         }
     }
+
+
+
+
 
     private void reservarAsiento() {
         int fila = tblAsientos.getSelectedRow();
@@ -131,18 +149,33 @@ public class ReservarAsiento extends JFrame {
             return;
         }
 
-        String asiento = (String) tblAsientos.getValueAt(fila, 1);
+        String filaAsiento = (String) tblAsientos.getValueAt(fila, 0);
+        int numeroAsiento = (int) tblAsientos.getValueAt(fila, 1);
+
+        // Asumiendo que el usuario está autenticado y tenemos su ID
+        int usuarioId = 1; // Debes obtener el usuario_id de forma segura y apropiada
+        String[] seleccionHorario = ((String) cmbHorarios.getSelectedItem()).split(" ");
+        String fecha = seleccionHorario[0]; // Formato de fecha: "YYYY-MM-DD"
+        String hora = seleccionHorario[1];  // Formato de hora: "HH:MM:SS"
+
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-             PreparedStatement stmt = conn.prepareStatement("UPDATE asientos SET disponible = 0 WHERE horario_id = ? AND fila = ? AND asiento = ?")) {
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Reservas (pelicula_id, sala_id, asiento_id, fecha, hora, usuario_id) VALUES (?, ?, ?, ?, ?, ?)")) {
 
-            stmt.setInt(1, horarioId);
-            stmt.setString(2, asiento.substring(0, 1));
-            stmt.setInt(3, Integer.parseInt(asiento.substring(1)));
+            stmt.setInt(1, peliculaId);
+            stmt.setInt(2, horarioId); // Asumiendo que sala_id está relacionado con el horario
+            stmt.setInt(3, numeroAsiento);
+            stmt.setDate(4, java.sql.Date.valueOf(fecha));
+            stmt.setTime(5, java.sql.Time.valueOf(hora));
+            stmt.setInt(6, usuarioId);
 
-            stmt.executeUpdate();
+            int rowsUpdated = stmt.executeUpdate();
 
-            JOptionPane.showMessageDialog(this, "Asiento reservado con éxito");
-            verSala();
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Asiento reservado con éxito");
+                verSala();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al reservar el asiento");
+            }
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al reservar asiento: " + ex.getMessage());
