@@ -152,6 +152,9 @@ public class ReservarAsiento extends JFrame {
         String filaAsiento = (String) tblAsientos.getValueAt(fila, 0);
         int numeroAsiento = (int) tblAsientos.getValueAt(fila, 1);
 
+        // Obteniendo el asiento_id basado en la fila y el número de asiento
+        int asientoId = obtenerAsientoId(filaAsiento, numeroAsiento);
+
         // Asumiendo que el usuario está autenticado y tenemos su ID
         int usuarioId = 1; // Debes obtener el usuario_id de forma segura y apropiada
         String[] seleccionHorario = ((String) cmbHorarios.getSelectedItem()).split(" ");
@@ -159,20 +162,19 @@ public class ReservarAsiento extends JFrame {
         String hora = seleccionHorario[1];  // Formato de hora: "HH:MM:SS"
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Reservas (pelicula_id, sala_id, asiento_id, fecha, hora, usuario_id) VALUES (?, ?, ?, ?, ?, ?)")) {
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO reservas (cliente_id, horario_id, asiento_id) VALUES (?, ?, ?)")) {
 
-            stmt.setInt(1, peliculaId);
-            stmt.setInt(2, horarioId); // Asumiendo que sala_id está relacionado con el horario
-            stmt.setInt(3, numeroAsiento);
-            stmt.setDate(4, java.sql.Date.valueOf(fecha));
-            stmt.setTime(5, java.sql.Time.valueOf(hora));
-            stmt.setInt(6, usuarioId);
+            stmt.setInt(1, usuarioId);
+            stmt.setInt(2, horarioId);
+            stmt.setInt(3, asientoId);
 
             int rowsUpdated = stmt.executeUpdate();
 
             if (rowsUpdated > 0) {
+                // Marcar el asiento como no disponible
+                marcarAsientoNoDisponible(asientoId);
                 JOptionPane.showMessageDialog(this, "Asiento reservado con éxito");
-                verSala();
+                verSala(); // Actualizar la vista de asientos
             } else {
                 JOptionPane.showMessageDialog(this, "Error al reservar el asiento");
             }
@@ -181,6 +183,40 @@ public class ReservarAsiento extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al reservar asiento: " + ex.getMessage());
         }
     }
+
+    private int obtenerAsientoId(String fila, int numero) {
+        int asientoId = -1;
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+             PreparedStatement stmt = conn.prepareStatement("SELECT id FROM asientos WHERE fila = ? AND numero = ? AND sala_id = (SELECT sala FROM horarios WHERE id = ?)")) {
+
+            stmt.setString(1, fila);
+            stmt.setInt(2, numero);
+            stmt.setInt(3, horarioId); // Se asume que horarioId está definido y se corresponde con el horario seleccionado
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                asientoId = rs.getInt("id");
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al obtener ID del asiento: " + ex.getMessage());
+        }
+
+        return asientoId;
+    }
+
+
+    private void marcarAsientoNoDisponible(int asientoId) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+             PreparedStatement stmt = conn.prepareStatement("UPDATE asientos SET disponible = FALSE WHERE id = ?")) {
+            stmt.setInt(1, asientoId);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar disponibilidad del asiento: " + ex.getMessage());
+        }
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
