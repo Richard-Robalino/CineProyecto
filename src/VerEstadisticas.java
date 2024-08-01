@@ -7,11 +7,11 @@ import javax.swing.table.DefaultTableModel;
 public class VerEstadisticas extends JFrame {
     private JTable tableEstadisticas;
     private JButton btnCancelar;
-    private AdminWindow adminWindow; // Referencia al AdminWindow
+    private AdminWindow adminWindow;
 
     public VerEstadisticas(AdminWindow adminWindow) {
         super("Ver Estadísticas");
-        this.adminWindow = adminWindow; // Guardar la referencia
+        this.adminWindow = adminWindow;
         setLayout(new BorderLayout());
 
         // Panel para la tabla de estadísticas
@@ -27,27 +27,25 @@ public class VerEstadisticas extends JFrame {
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
-                AdminWindow ventanaAdmin = new AdminWindow();
-                ventanaAdmin.setVisible(true); // Abre la ventana de AdminWindow
+                dispose();
+                adminWindow.setVisible(true);
             }
         });
         panelBotones.add(btnCancelar);
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        setSize(600, 400); // Ajusta el tamaño de la ventana
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     private void actualizarEstadisticas() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
-            // Ejemplo de consulta para mostrar estadísticas de ocupación
-            String query = "SELECT p.titulo, COUNT(r.id) AS reservas, COUNT(h.id) AS horarios, SUM(r.cantidad_asientos) AS asientos_ocupados " +
-                    "FROM peliculas p " +
-                    "LEFT JOIN horarios h ON p.id = h.pelicula_id " +
-                    "LEFT JOIN reservas r ON h.id = r.horario_id " +
+            String query = "SELECT p.titulo, COUNT(r.id) AS reservas, COUNT(h.id) AS horarios, COUNT(r.asiento_id) AS asientos_ocupados " +
+                    "FROM Peliculas p " +
+                    "LEFT JOIN Horarios h ON p.id = h.pelicula_id " +
+                    "LEFT JOIN Reservas r ON h.id = r.horario_id " +
                     "GROUP BY p.titulo";
 
             try (PreparedStatement pstmt = conn.prepareStatement(query);

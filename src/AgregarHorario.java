@@ -51,7 +51,7 @@ public class AgregarHorario extends JFrame {
                         pstmt.setInt(1, peliculaId);
                         pstmt.setDate(2, Date.valueOf(fecha));
                         pstmt.setTime(3, Time.valueOf(hora));
-                        pstmt.setInt(4, sala);
+                        //pstmt.setInt(4, sala);
                         pstmt.executeUpdate();
                         JOptionPane.showMessageDialog(null, "Horario agregado exitosamente");
                         dispose(); // Cierra la ventana actual
