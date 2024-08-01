@@ -38,10 +38,9 @@ public class ClientWindow extends JFrame {
         btnReservarAsiento = new JButton("Reservar Asiento");
         btnReservarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para reservar un asiento
-                // Ejemplo:
-                // ReservarAsiento ventanaReservarAsiento = new ReservarAsiento();
-                // ventanaReservarAsiento.setVisible(true);
+
+                ReservarAsiento ventanaReservarAsiento = new ReservarAsiento();
+                ventanaReservarAsiento.setVisible(true);
             }
         });
         add(btnReservarAsiento);
@@ -49,10 +48,9 @@ public class ClientWindow extends JFrame {
         btnVerHistorial = new JButton("Ver Historial de Reservas");
         btnVerHistorial.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para ver el historial de reservas del cliente
-                // Ejemplo:
-                // VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas();
-                // ventanaVerHistorialReservas.setVisible(true);
+
+                VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas();
+                 ventanaVerHistorialReservas.setVisible(true);
             }
         });
         add(btnVerHistorial);
