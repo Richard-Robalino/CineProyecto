@@ -97,15 +97,15 @@ public class GestionHorarios extends JFrame {
             try (PreparedStatement pstmt = conn.prepareStatement(query);
                  ResultSet rs = pstmt.executeQuery()) {
 
-                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Pelicula ID", "Fecha", "Hora"}, 0);
+                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Pelicula ID", "Fecha", "Hora", "Sala", "Disponible"}, 0);
                 while (rs.next()) {
                     model.addRow(new Object[]{
                             rs.getInt("id"),
                             rs.getInt("pelicula_id"),
                             rs.getDate("fecha"),
                             rs.getTime("hora"),
-                            //rs.getInt("sala"),
-                            //rs.getBoolean("disponible")
+                            rs.getInt("sala"),
+                            rs.getBoolean("disponible")
                     });
                 }
                 tableHorarios.setModel(model);
