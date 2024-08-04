@@ -2,14 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 public class GestionClientes extends JFrame {
     private JTable tableClientes;
     private JButton btnAgregarCliente;
     private JButton btnEditarCliente;
     private JButton btnEliminarCliente;
-    private JButton btnVerClientes;
     private JButton btnCancelar;
     AdminWindow adminWindow; // Referencia al AdminWindow
 
@@ -72,7 +74,6 @@ public class GestionClientes extends JFrame {
         });
         panelBotones.add(btnEliminarCliente);
 
-
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -84,27 +85,39 @@ public class GestionClientes extends JFrame {
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        setSize(600, 400); // Ajusta el tamaño de la ventana
+        setSize(800, 600); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }
 
     private void actualizarTabla() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
-            String query = "SELECT * FROM usuarios WHERE rol='CLIENTE' OR rol='ADMINISTRADOR'";
+            String query = "SELECT id, username, password, rol, foto FROM usuarios WHERE rol='CLIENTE' OR rol='ADMINISTRADOR'";
             try (PreparedStatement pstmt = conn.prepareStatement(query);
                  ResultSet rs = pstmt.executeQuery()) {
 
-                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Username", "Password", "Rol"}, 0);
+                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Username", "Password", "Rol", "Foto"}, 0);
                 while (rs.next()) {
+                    ImageIcon foto = null;
+                    byte[] imgBytes = rs.getBytes("foto");
+                    if (imgBytes != null) {
+                        Image img = Toolkit.getDefaultToolkit().createImage(imgBytes);
+                        ImageIcon icon = new ImageIcon(img);
+                        Image scaledImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                        foto = new ImageIcon(scaledImage);
+                    }
                     model.addRow(new Object[]{
                             rs.getInt("id"),
                             rs.getString("username"),
                             rs.getString("password"),
-                            rs.getString("rol")
+                            rs.getString("rol"),
+                            foto
                     });
                 }
                 tableClientes.setModel(model);
+                tableClientes.setRowHeight(100);
+                TableColumn column = tableClientes.getColumnModel().getColumn(4);
+                column.setCellRenderer(new ImageRenderer());
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
@@ -133,3 +146,15 @@ public class GestionClientes extends JFrame {
         });
     }
 }
+
+class ImageRenderer extends DefaultTableCellRenderer {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        if (value instanceof ImageIcon) {
+            return new JLabel((ImageIcon) value);
+        }
+        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    }
+}
+
+
