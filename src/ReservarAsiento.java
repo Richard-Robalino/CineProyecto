@@ -73,7 +73,7 @@ public class ReservarAsiento extends JFrame {
     private void cargarPeliculas() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT id, titulo FROM Peliculas")) {
+             ResultSet rs = stmt.executeQuery("SELECT id, titulo FROM peliculas")) {
 
             cmbPeliculas.addItem("Seleccione una película");
             while (rs.next()) {
@@ -95,7 +95,7 @@ public class ReservarAsiento extends JFrame {
 
     private void cargarHorarios() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-             PreparedStatement stmt = conn.prepareStatement("SELECT id, fecha, hora FROM Horarios WHERE pelicula_id = ?")) {
+             PreparedStatement stmt = conn.prepareStatement("SELECT id, fecha, hora FROM horarios WHERE pelicula_id = ?")) {
 
             stmt.setInt(1, peliculaId);
             ResultSet rs = stmt.executeQuery();
@@ -116,7 +116,7 @@ public class ReservarAsiento extends JFrame {
         if (seleccion != null && !seleccion.equals("Seleccione un horario")) {
             horarioId = Integer.parseInt(seleccion.split("\\(")[1].replace(")", ""));
             try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-                 PreparedStatement stmt = conn.prepareStatement("SELECT a.fila, a.numero, a.disponible FROM Asientos a JOIN Horarios h ON a.sala_id = h.sala_id WHERE h.id = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT a.fila, a.numero, a.disponible FROM asientos a JOIN horarios h ON a.sala_id = h.sala WHERE h.id = ?")) {
 
                 stmt.setInt(1, horarioId);
                 ResultSet rs = stmt.executeQuery();
@@ -137,10 +137,6 @@ public class ReservarAsiento extends JFrame {
             JOptionPane.showMessageDialog(this, "Seleccione un horario primero");
         }
     }
-
-
-
-
 
     private void reservarAsiento() {
         int fila = tblAsientos.getSelectedRow();
@@ -192,7 +188,7 @@ public class ReservarAsiento extends JFrame {
 
             stmt.setString(1, fila);
             stmt.setInt(2, numero);
-            stmt.setInt(3, horarioId); // Se asume que horarioId está definido y se corresponde con el horario seleccionado
+            stmt.setInt(3, horarioId);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -206,7 +202,6 @@ public class ReservarAsiento extends JFrame {
         return asientoId;
     }
 
-
     private void marcarAsientoNoDisponible(int asientoId) {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
              PreparedStatement stmt = conn.prepareStatement("UPDATE asientos SET disponible = FALSE WHERE id = ?")) {
@@ -216,7 +211,6 @@ public class ReservarAsiento extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al actualizar disponibilidad del asiento: " + ex.getMessage());
         }
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

@@ -9,7 +9,7 @@ public class VerHistorialReservas extends JFrame {
     private DefaultTableModel modelo;
     private JButton btnCerrar;
 
-    public VerHistorialReservas() {
+    public VerHistorialReservas(int clienteId) {
         super("Historial de Reservas");
         setLayout(new BorderLayout());
 
@@ -18,9 +18,10 @@ public class VerHistorialReservas extends JFrame {
         pnlResultados.setLayout(new BorderLayout());
         tblHistorial = new JTable();
         modelo = new DefaultTableModel();
+        modelo.addColumn("Fecha Reserva");
         modelo.addColumn("Fecha");
         modelo.addColumn("Hora");
-        modelo.addColumn("Pelicula");
+        modelo.addColumn("Película");
         modelo.addColumn("Sala");
         modelo.addColumn("Asiento");
         tblHistorial.setModel(modelo);
@@ -43,34 +44,34 @@ public class VerHistorialReservas extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        cargarHistorialReservas();
+        cargarHistorialReservas(clienteId);
     }
 
-    private void cargarHistorialReservas() {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT r.fecha, r.hora, p.titulo, s.nombre, a.asiento " +
-                    "FROM reservas r " +
-                    "JOIN peliculas p ON r.pelicula_id = p.id " +
-                    "JOIN salas s ON r.sala_id = s.id " +
-                    "JOIN asientos a ON r.asiento_id = a.id " +
-                    "ORDER BY r.fecha DESC");
+    private void cargarHistorialReservas(int clienteId) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+             PreparedStatement stmt = conn.prepareStatement(
+                     "SELECT r.fecha_reserva, h.fecha, h.hora, p.titulo, h.sala, a.fila, a.numero " +
+                             "FROM reservas r " +
+                             "JOIN horarios h ON r.horario_id = h.id " +
+                             "JOIN peliculas p ON h.pelicula_id = p.id " +
+                             "JOIN asientos a ON r.asiento_id = a.id " +
+                             "WHERE r.cliente_id = ? " +
+                             "ORDER BY r.fecha_reserva DESC")) {
+            stmt.setInt(1, clienteId);
+            ResultSet rs = stmt.executeQuery();
 
             modelo.setRowCount(0);
             while (rs.next()) {
-                Object[] fila = new Object[5];
-                fila[0] = rs.getString("fecha");
-                fila[1] = rs.getString("hora");
-                fila[2] = rs.getString("titulo");
-                fila[3] = rs.getString("nombre");
-                fila[4] = rs.getString("asiento");
+                Object[] fila = new Object[6];
+                fila[0] = rs.getString("fecha_reserva");
+                fila[1] = rs.getString("fecha");
+                fila[2] = rs.getString("hora");
+                fila[3] = rs.getString("titulo");
+                fila[4] = rs.getInt("sala");
+                fila[5] = rs.getString("fila") + rs.getInt("numero");
                 modelo.addRow(fila);
             }
-
             rs.close();
-            stmt.close();
-            conn.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al cargar historial de reservas: " + ex.getMessage());
         }
@@ -78,7 +79,16 @@ public class VerHistorialReservas extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas();
+            // Solicitar clienteId al usuario
+            String input = JOptionPane.showInputDialog("Ingrese el ID del cliente:");
+            int clienteId;
+            try {
+                clienteId = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "ID de cliente no válido. Usando ID predeterminado 3.");
+                clienteId = 3; // ID predeterminado en caso de entrada no válida
+            }
+            VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas(clienteId);
             ventanaVerHistorialReservas.setVisible(true);
         });
     }

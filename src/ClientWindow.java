@@ -48,9 +48,17 @@ public class ClientWindow extends JFrame {
         btnVerHistorial = new JButton("Ver Historial de Reservas");
         btnVerHistorial.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas();
-                 ventanaVerHistorialReservas.setVisible(true);
+                // Solicitar clienteId al usuario
+                String input = JOptionPane.showInputDialog("Ingrese el ID del cliente:");
+                int clienteId;
+                try {
+                    clienteId = Integer.parseInt(input);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "ID de cliente no válido. Usando ID predeterminado 3.");
+                    clienteId = 3; // ID predeterminado en caso de entrada no válida
+                }
+                VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas(clienteId);
+                ventanaVerHistorialReservas.setVisible(true);
             }
         });
         add(btnVerHistorial);
