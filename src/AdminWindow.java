@@ -10,9 +10,23 @@ public class AdminWindow extends JFrame {
 
     public AdminWindow() {
         super("Panel de Administrador");
-        setLayout(new GridLayout(4, 1));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        btnAgregarPelicula = new JButton("Agregar Película");
+        JLabel lblTitle = new JLabel("Panel de Administrador", JLabel.CENTER);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitle.setForeground(Color.BLUE);
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(lblTitle, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
+
+        btnAgregarPelicula = createButton("Agregar Película", "agregar_pelicula.png");
         btnAgregarPelicula.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AgregarPelicula ventanaAgregarPelicula = new AgregarPelicula(AdminWindow.this);
@@ -20,9 +34,10 @@ public class AdminWindow extends JFrame {
                 dispose();
             }
         });
-        add(btnAgregarPelicula);
+        gbc.gridx = 0;
+        add(btnAgregarPelicula, gbc);
 
-        btnGestionarHorarios = new JButton("Gestionar Horarios");
+        btnGestionarHorarios = createButton("Gestionar Horarios", "gestionar_horarios.png");
         btnGestionarHorarios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GestionHorarios ventanaGestionHorarios = new GestionHorarios(AdminWindow.this);
@@ -30,33 +45,43 @@ public class AdminWindow extends JFrame {
                 dispose();
             }
         });
-        add(btnGestionarHorarios);
+        gbc.gridy = 2;
+        add(btnGestionarHorarios, gbc);
 
-        btnVerEstadisticas = new JButton("Ver Estadísticas");
+        btnVerEstadisticas = createButton("Ver Estadísticas", "ver_estadisticas.png");
         btnVerEstadisticas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 VerEstadisticas ventanaVerEstadisticas = new VerEstadisticas(AdminWindow.this);
                 ventanaVerEstadisticas.setVisible(true);
                 dispose();
             }
         });
-        add(btnVerEstadisticas);
+        gbc.gridy = 3;
+        add(btnVerEstadisticas, gbc);
 
-        btnGestionarClientes = new JButton("Gestionar Clientes");
+        btnGestionarClientes = createButton("Gestionar Clientes", "gestionar_clientes.png");
         btnGestionarClientes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 GestionClientes ventanaGestionClientes = new GestionClientes(AdminWindow.this);
                 ventanaGestionClientes.setVisible(true);
                 dispose();
             }
         });
-        add(btnGestionarClientes);
+        gbc.gridy = 4;
+        add(btnGestionarClientes, gbc);
 
-        setSize(300, 300); // Ajusta el tamaño de la ventana
+        setSize(400, 500); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
+    }
+
+    private JButton createButton(String text, String imagePath) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.PLAIN, 16));
+        button.setIcon(new ImageIcon(imagePath));
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setPreferredSize(new Dimension(200, 50));
+        return button;
     }
 
     public static void main(String[] args) {
