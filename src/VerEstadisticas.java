@@ -50,10 +50,14 @@ public class VerEstadisticas extends JFrame {
     private void actualizarEstadisticas() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
             // Ejemplo de consulta para mostrar estadísticas de ocupación
-            String query = "SELECT p.titulo, COUNT(r.id) AS reservas, COUNT(h.id) AS horarios, SUM(r.cantidad_asientos) AS asientos_ocupados " +
+            String query = "SELECT p.titulo, " +
+                    "       COUNT(r.id) AS reservas, " +
+                    "       COUNT(DISTINCT h.id) AS horarios, " +
+                    "       COALESCE(SUM(CASE WHEN a.disponible = FALSE THEN 1 ELSE 0 END), 0) AS asientos_ocupados " +
                     "FROM peliculas p " +
                     "LEFT JOIN horarios h ON p.id = h.pelicula_id " +
                     "LEFT JOIN reservas r ON h.id = r.horario_id " +
+                    "LEFT JOIN asientos a ON r.asiento_id = a.id " +
                     "GROUP BY p.titulo";
 
             try (PreparedStatement pstmt = conn.prepareStatement(query);

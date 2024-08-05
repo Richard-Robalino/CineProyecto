@@ -1,7 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class ReservarAsiento extends JFrame {
@@ -14,6 +15,7 @@ public class ReservarAsiento extends JFrame {
     private int peliculaId;
     private int horarioId;
     private JButton btnCancelar;
+    private JButton btnVolverMenu;
 
     public ReservarAsiento() {
         super("Reservar Asiento");
@@ -78,15 +80,20 @@ public class ReservarAsiento extends JFrame {
         btnReservar.setForeground(Color.WHITE);
         btnReservar.addActionListener(e -> reservarAsiento());
         pnlBotones.add(btnReservar);
+
+        // Botón para volver al menú principal
+        btnVolverMenu = new JButton("Volver al Menú Principal");
+        btnVolverMenu.setBackground(new Color(255, 69, 0));
+        btnVolverMenu.setForeground(Color.WHITE);
+        btnVolverMenu.setFont(new Font("Arial", Font.BOLD, 16));
+        btnVolverMenu.addActionListener(e -> volverAlMenuPrincipal());
+        pnlBotones.add(btnVolverMenu);
+
         add(pnlBotones, BorderLayout.SOUTH);
 
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-
-
-
-
     }
 
     private void cargarPeliculas() {
@@ -231,12 +238,14 @@ public class ReservarAsiento extends JFrame {
         }
     }
 
-
+    private void volverAlMenuPrincipal() {
+        // Crear una nueva instancia de ClientWindow y mostrarla
+        new ClientWindow().setVisible(true);
+        // Cerrar la ventana actual
+        this.dispose();
+    }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ReservarAsiento ventanaReservarAsiento = new ReservarAsiento();
-            ventanaReservarAsiento.setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new ReservarAsiento().setVisible(true));
     }
 }
