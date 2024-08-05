@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class EditarCliente extends JFrame {
     private JTextField txtUsername;
-    private JTextField txtPassword;
+    private JPasswordField txtPassword;
     private JComboBox<String> comboRol;
     private JButton btnGuardar;
     private JButton btnCancelar;
@@ -17,27 +17,40 @@ public class EditarCliente extends JFrame {
         this.gestionClientes = gestionClientes;
         this.clienteId = clienteId;
         setLayout(new GridLayout(4, 2));
+        setBackground(new Color(255, 255, 255)); // Fondo blanco
 
         JLabel lblUsername = new JLabel("Username:");
+        lblUsername.setFont(new Font("Arial", Font.BOLD, 14));
+        lblUsername.setForeground(new Color(50, 50, 50)); // Gris oscuro
         txtUsername = new JTextField(20);
+        txtUsername.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lblUsername);
         add(txtUsername);
 
         JLabel lblPassword = new JLabel("Password:");
-        txtPassword = new JTextField(20);
+        lblPassword.setFont(new Font("Arial", Font.BOLD, 14));
+        lblPassword.setForeground(new Color(50, 50, 50)); // Gris oscuro
+        txtPassword = new JPasswordField(20);
+        txtPassword.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lblPassword);
         add(txtPassword);
 
         JLabel lblRol = new JLabel("Rol:");
+        lblRol.setFont(new Font("Arial", Font.BOLD, 14));
+        lblRol.setForeground(new Color(50, 50, 50)); // Gris oscuro
         comboRol = new JComboBox<>(new String[]{"CLIENTE", "ADMINISTRADOR"});
+        comboRol.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lblRol);
         add(comboRol);
 
         btnGuardar = new JButton("Guardar");
+        btnGuardar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnGuardar.setBackground(new Color(34, 139, 34)); // Verde oscuro
+        btnGuardar.setForeground(Color.WHITE); // Texto blanco
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String username = txtUsername.getText();
-                String password = txtPassword.getText();
+                String password = new String(txtPassword.getPassword()); // Obtener texto de JPasswordField
                 String rol = (String) comboRol.getSelectedItem();
 
                 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
@@ -62,6 +75,9 @@ public class EditarCliente extends JFrame {
         add(btnGuardar);
 
         btnCancelar = new JButton("Cancelar");
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCancelar.setBackground(new Color(255, 69, 58)); // Rojo claro
+        btnCancelar.setForeground(Color.WHITE); // Texto blanco
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana actual
@@ -73,7 +89,7 @@ public class EditarCliente extends JFrame {
 
         cargarDatosCliente();
 
-        setSize(300, 200); // Ajusta el tamaño de la ventana
+        setSize(350, 200); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }
