@@ -8,7 +8,7 @@ public class Login extends JFrame {
     private JPasswordField txtContrasena;
     private JComboBox<String> comboRol;
     private JButton btnIniciarSesion;
-
+    private int usuarioId;
     public Login() {
         super("Login");
         setLayout(new GridBagLayout());
@@ -84,13 +84,14 @@ public class Login extends JFrame {
                         ResultSet rs = pstmt.executeQuery();
 
                         if (rs.next()) {
+                            usuarioId = rs.getInt("id"); // Obtener el ID del usuario
                             JOptionPane.showMessageDialog(null, "Login exitoso como " + rolSeleccionado);
 
                             if (rolSeleccionado.equals("ADMINISTRADOR")) {
                                 AdminWindow ventanaAdmin = new AdminWindow();
                                 ventanaAdmin.setVisible(true);
                             } else if (rolSeleccionado.equals("CLIENTE")) {
-                                ClientWindow ventanaCliente = new ClientWindow();
+                                ClientWindow ventanaCliente = new ClientWindow(usuarioId); // Pasar el ID del usuario a ClientWindow
                                 ventanaCliente.setVisible(true);
                             }
 

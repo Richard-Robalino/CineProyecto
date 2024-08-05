@@ -8,9 +8,11 @@ public class ClientWindow extends JFrame {
     private JButton btnVerHorarios;
     private JButton btnReservarAsiento;
     private JButton btnVerHistorial;
+    private int usuarioId;
+    public ClientWindow(int usuarioId) {
+        this.usuarioId = usuarioId;
+        //super("Panel de Cliente");
 
-    public ClientWindow() {
-        super("Panel de Cliente");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -52,7 +54,8 @@ public class ClientWindow extends JFrame {
         btnReservarAsiento = createButton("Reservar Asiento");
         btnReservarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ReservarAsiento ventanaReservarAsiento = new ReservarAsiento();
+
+                ReservarAsiento ventanaReservarAsiento = new ReservarAsiento(usuarioId);
                 ventanaReservarAsiento.setVisible(true);
                 dispose();
             }
@@ -87,10 +90,10 @@ public class ClientWindow extends JFrame {
         return button;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             ClientWindow ventanaCliente = new ClientWindow();
             ventanaCliente.setVisible(true);
         });
-    }
+    }*/
 }

@@ -16,9 +16,10 @@ public class ReservarAsiento extends JFrame {
     private int horarioId;
     private JButton btnCancelar;
     private JButton btnVolverMenu;
-
-    public ReservarAsiento() {
-        super("Reservar Asiento");
+    private int usuarioId;
+    public ReservarAsiento(int usuarioId) {
+        this.usuarioId = usuarioId;
+        //super("Reservar Asiento");
         setLayout(new BorderLayout());
 
         // Establecer fondo de color
@@ -86,7 +87,7 @@ public class ReservarAsiento extends JFrame {
         btnVolverMenu.setBackground(new Color(255, 69, 0));
         btnVolverMenu.setForeground(Color.WHITE);
         btnVolverMenu.setFont(new Font("Arial", Font.BOLD, 16));
-        btnVolverMenu.addActionListener(e -> volverAlMenuPrincipal());
+        //btnVolverMenu.addActionListener(e -> volverAlMenuPrincipal());
         pnlBotones.add(btnVolverMenu);
 
         add(pnlBotones, BorderLayout.SOUTH);
@@ -166,6 +167,7 @@ public class ReservarAsiento extends JFrame {
 
     private void reservarAsiento() {
         int fila = tblAsientos.getSelectedRow();
+
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione un asiento");
             return;
@@ -177,8 +179,7 @@ public class ReservarAsiento extends JFrame {
         // Obteniendo el asiento_id basado en la fila y el número de asiento
         int asientoId = obtenerAsientoId(filaAsiento, numeroAsiento);
 
-        // Asumiendo que el usuario está autenticado y tenemos su ID
-        int usuarioId = 1; // Debes obtener el usuario_id de forma segura y apropiada
+        // Utilizar el usuarioId pasado en el constructor
         String[] seleccionHorario = ((String) cmbHorarios.getSelectedItem()).split(" ");
         String fecha = seleccionHorario[0]; // Formato de fecha: "YYYY-MM-DD"
         String hora = seleccionHorario[1];  // Formato de hora: "HH:MM:SS"
@@ -186,7 +187,7 @@ public class ReservarAsiento extends JFrame {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
              PreparedStatement stmt = conn.prepareStatement("INSERT INTO reservas (cliente_id, horario_id, asiento_id) VALUES (?, ?, ?)")) {
 
-            stmt.setInt(1, usuarioId);
+            stmt.setInt(1, this.usuarioId); // Utilizar el ID del usuario
             stmt.setInt(2, horarioId);
             stmt.setInt(3, asientoId);
 
@@ -205,6 +206,7 @@ public class ReservarAsiento extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al reservar asiento: " + ex.getMessage());
         }
     }
+
 
     private int obtenerAsientoId(String fila, int numero) {
         int asientoId = -1;
@@ -237,15 +239,15 @@ public class ReservarAsiento extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al actualizar disponibilidad del asiento: " + ex.getMessage());
         }
     }
-
+/*
     private void volverAlMenuPrincipal() {
         // Crear una nueva instancia de ClientWindow y mostrarla
-        new ClientWindow().setVisible(true);
+        new ClientWindow(int usuarioId).setVisible(true);
         // Cerrar la ventana actual
         this.dispose();
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new ReservarAsiento().setVisible(true));
-    }
+    }*/
 }
