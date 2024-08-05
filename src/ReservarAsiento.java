@@ -13,18 +13,25 @@ public class ReservarAsiento extends JFrame {
     private DefaultTableModel modelo;
     private int peliculaId;
     private int horarioId;
+    private JButton btnCancelar;
 
     public ReservarAsiento() {
         super("Reservar Asiento");
         setLayout(new BorderLayout());
 
+        // Establecer fondo de color
+        getContentPane().setBackground(new Color(200, 220, 240));
+
         // Panel de selección de película y horario
         JPanel pnlSeleccion = new JPanel();
         pnlSeleccion.setLayout(new GridLayout(2, 1));
+        pnlSeleccion.setBackground(new Color(200, 220, 240));
 
         JPanel pnlPelicula = new JPanel();
         pnlPelicula.setLayout(new FlowLayout());
+        pnlPelicula.setBackground(new Color(200, 220, 240));
         JLabel lblPelicula = new JLabel("Seleccione una película:");
+        lblPelicula.setFont(new Font("Arial", Font.PLAIN, 16));
         cmbPeliculas = new JComboBox<>();
         cargarPeliculas();
         cmbPeliculas.addActionListener(e -> seleccionarPelicula());
@@ -34,9 +41,13 @@ public class ReservarAsiento extends JFrame {
 
         JPanel pnlHorario = new JPanel();
         pnlHorario.setLayout(new FlowLayout());
+        pnlHorario.setBackground(new Color(200, 220, 240));
         JLabel lblHorario = new JLabel("Seleccione un horario:");
+        lblHorario.setFont(new Font("Arial", Font.PLAIN, 16));
         cmbHorarios = new JComboBox<>();
         btnVerSala = new JButton("Ver Sala");
+        btnVerSala.setBackground(new Color(70, 130, 180));
+        btnVerSala.setForeground(Color.WHITE);
         btnVerSala.addActionListener(e -> verSala());
         pnlHorario.add(lblHorario);
         pnlHorario.add(cmbHorarios);
@@ -60,14 +71,22 @@ public class ReservarAsiento extends JFrame {
         // Panel de botones
         JPanel pnlBotones = new JPanel();
         pnlBotones.setLayout(new FlowLayout());
+        pnlBotones.setBackground(new Color(200, 220, 240));
         btnReservar = new JButton("Reservar");
+        btnReservar.setFont(new Font("Arial", Font.BOLD, 16));
+        btnReservar.setBackground(new Color(70, 130, 180));
+        btnReservar.setForeground(Color.WHITE);
         btnReservar.addActionListener(e -> reservarAsiento());
         pnlBotones.add(btnReservar);
         add(pnlBotones, BorderLayout.SOUTH);
 
-        setSize(600, 400);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+
+
+
+
     }
 
     private void cargarPeliculas() {
@@ -211,6 +230,8 @@ public class ReservarAsiento extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al actualizar disponibilidad del asiento: " + ex.getMessage());
         }
     }
+
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

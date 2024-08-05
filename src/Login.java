@@ -11,35 +11,69 @@ public class Login extends JFrame {
 
     public Login() {
         super("Login");
-        setLayout(new FlowLayout());
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Establecer fondo de color
+        getContentPane().setBackground(new Color(200, 220, 240));
+
+        JLabel lblTitle = new JLabel("Inicio de Sesión", JLabel.CENTER);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitle.setForeground(Color.BLUE);
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(lblTitle, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
 
         JLabel lblUsuario = new JLabel("Usuario:");
-        add(lblUsuario);
+        lblUsuario.setFont(new Font("Arial", Font.PLAIN, 16));
+        gbc.gridx = 0;
+        add(lblUsuario, gbc);
 
         txtUsuario = new JTextField(20);
-        add(txtUsuario);
+        gbc.gridx = 1;
+        add(txtUsuario, gbc);
 
+        gbc.gridy = 2;
         JLabel lblContrasena = new JLabel("Contraseña:");
-        add(lblContrasena);
+        lblContrasena.setFont(new Font("Arial", Font.PLAIN, 16));
+        gbc.gridx = 0;
+        add(lblContrasena, gbc);
 
         txtContrasena = new JPasswordField(20);
-        add(txtContrasena);
+        gbc.gridx = 1;
+        add(txtContrasena, gbc);
 
+        gbc.gridy = 3;
         JLabel lblRol = new JLabel("Rol:");
-        add(lblRol);
+        lblRol.setFont(new Font("Arial", Font.PLAIN, 16));
+        gbc.gridx = 0;
+        add(lblRol, gbc);
 
-        String[] roles = {"ADMINISTRADOR", "CLIENTE"}; // Usar roles en mayúsculas para la comparación
+        String[] roles = {"ADMINISTRADOR", "CLIENTE"};
         comboRol = new JComboBox<>(roles);
-        add(comboRol);
+        gbc.gridx = 1;
+        add(comboRol, gbc);
 
+        gbc.gridy = 4;
         btnIniciarSesion = new JButton("Iniciar Sesión");
-        add(btnIniciarSesion);
+        btnIniciarSesion.setFont(new Font("Arial", Font.BOLD, 16));
+        btnIniciarSesion.setBackground(new Color(70, 130, 180));
+        btnIniciarSesion.setForeground(Color.WHITE);
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        add(btnIniciarSesion, gbc);
 
         btnIniciarSesion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String usuario = txtUsuario.getText();
                 String contrasena = new String(txtContrasena.getPassword());
-                String rolSeleccionado = ((String) comboRol.getSelectedItem()).toUpperCase(); // Convertir a mayúsculas el rol seleccionado
+                String rolSeleccionado = ((String) comboRol.getSelectedItem()).toUpperCase();
 
                 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
                     String query = "SELECT * FROM usuarios WHERE username=? AND password=? AND rol=?";
@@ -60,21 +94,21 @@ public class Login extends JFrame {
                                 ventanaCliente.setVisible(true);
                             }
 
-                            dispose(); // Cierra la ventana de login después del login exitoso
+                            dispose();
                         } else {
                             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
                         }
                     }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
-                    ex.printStackTrace(); // Esto te ayudará a depurar el problema en la conexión
+                    ex.printStackTrace();
                 }
             }
         });
 
-        setSize(700, 150); // Ajusta el tamaño de la ventana
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     public static void main(String[] args) {
