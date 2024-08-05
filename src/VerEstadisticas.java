@@ -17,19 +17,25 @@ public class VerEstadisticas extends JFrame {
         // Panel para la tabla de estadísticas
         JPanel panelTabla = new JPanel(new BorderLayout());
         tableEstadisticas = new JTable();
+        tableEstadisticas.setFillsViewportHeight(true);
+        tableEstadisticas.setRowHeight(25);
         actualizarEstadisticas();
         panelTabla.add(new JScrollPane(tableEstadisticas), BorderLayout.CENTER);
         add(panelTabla, BorderLayout.CENTER);
 
         // Panel para el botón de cancelar
-        JPanel panelBotones = new JPanel(new FlowLayout());
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Espaciado
 
         btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBackground(Color.RED);
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setFocusPainted(false);
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana actual
-                AdminWindow ventanaAdmin = new AdminWindow();
-                ventanaAdmin.setVisible(true); // Abre la ventana de AdminWindow
+                adminWindow.setVisible(true); // Abre la ventana de AdminWindow
             }
         });
         panelBotones.add(btnCancelar);
@@ -65,7 +71,7 @@ public class VerEstadisticas extends JFrame {
                 tableEstadisticas.setModel(model);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
+            JOptionPane.showMessageDialog(this, "Error al conectar a la base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
