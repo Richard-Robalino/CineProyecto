@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.sql.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 public class GestionClientes extends JFrame {
@@ -23,14 +22,22 @@ public class GestionClientes extends JFrame {
         // Panel para la tabla de clientes
         JPanel panelTabla = new JPanel(new BorderLayout());
         tableClientes = new JTable();
+        tableClientes.setFillsViewportHeight(true);
+        tableClientes.setRowHeight(100);
+        tableClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         actualizarTabla();
         panelTabla.add(new JScrollPane(tableClientes), BorderLayout.CENTER);
         add(panelTabla, BorderLayout.CENTER);
 
         // Panel para los botones
-        JPanel panelBotones = new JPanel(new FlowLayout());
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Espaciado
 
         btnAgregarCliente = new JButton("Agregar Cliente");
+        btnAgregarCliente.setBackground(new Color(0, 123, 255));
+        btnAgregarCliente.setForeground(Color.WHITE);
+        btnAgregarCliente.setFocusPainted(false);
+        btnAgregarCliente.setFont(new Font("Arial", Font.BOLD, 14));
         btnAgregarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AgregarCliente ventanaAgregarCliente = new AgregarCliente(GestionClientes.this);
@@ -41,6 +48,10 @@ public class GestionClientes extends JFrame {
         panelBotones.add(btnAgregarCliente);
 
         btnEditarCliente = new JButton("Editar Cliente");
+        btnEditarCliente.setBackground(new Color(0, 123, 255));
+        btnEditarCliente.setForeground(Color.WHITE);
+        btnEditarCliente.setFocusPainted(false);
+        btnEditarCliente.setFont(new Font("Arial", Font.BOLD, 14));
         btnEditarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tableClientes.getSelectedRow();
@@ -57,6 +68,10 @@ public class GestionClientes extends JFrame {
         panelBotones.add(btnEditarCliente);
 
         btnEliminarCliente = new JButton("Eliminar Cliente");
+        btnEliminarCliente.setBackground(new Color(220, 53, 69));
+        btnEliminarCliente.setForeground(Color.WHITE);
+        btnEliminarCliente.setFocusPainted(false);
+        btnEliminarCliente.setFont(new Font("Arial", Font.BOLD, 14));
         btnEliminarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tableClientes.getSelectedRow();
@@ -75,6 +90,10 @@ public class GestionClientes extends JFrame {
         panelBotones.add(btnEliminarCliente);
 
         btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBackground(Color.GRAY);
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setFocusPainted(false);
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana actual
@@ -115,12 +134,11 @@ public class GestionClientes extends JFrame {
                     });
                 }
                 tableClientes.setModel(model);
-                tableClientes.setRowHeight(100);
                 TableColumn column = tableClientes.getColumnModel().getColumn(4);
                 column.setCellRenderer(new ImageRenderer());
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
+            JOptionPane.showMessageDialog(this, "Error al conectar a la base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
@@ -131,10 +149,10 @@ public class GestionClientes extends JFrame {
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setInt(1, clienteId);
                 pstmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente");
+                JOptionPane.showMessageDialog(this, "Cliente eliminado exitosamente");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
+            JOptionPane.showMessageDialog(this, "Error al conectar a la base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
@@ -156,5 +174,3 @@ class ImageRenderer extends DefaultTableCellRenderer {
         return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
 }
-
-
