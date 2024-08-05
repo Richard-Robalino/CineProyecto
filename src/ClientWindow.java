@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClientWindow extends JFrame {
     private JButton btnBuscarPeliculas;
@@ -10,23 +11,18 @@ public class ClientWindow extends JFrame {
 
     public ClientWindow() {
         super("Panel de Cliente");
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        setLayout(new GridLayout(5, 1, 10, 10)); // Ajuste de espaciado en el GridLayout
 
-        JLabel lblTitle = new JLabel("Panel de Cliente", JLabel.CENTER);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitle.setForeground(Color.BLUE);
-        gbc.gridwidth = 2;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(lblTitle, gbc);
+        // Panel de botones
+        JPanel pnlBotones = new JPanel();
+        pnlBotones.setLayout(new GridLayout(4, 1, 10, 10));
+        pnlBotones.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        pnlBotones.setBackground(new Color(200, 220, 240));
 
-        gbc.gridwidth = 1;
-        gbc.gridy = 1;
-
-        btnBuscarPeliculas = createButton("Buscar Películas", "buscar_peliculas.png");
+        btnBuscarPeliculas = new JButton("Buscar Películas");
+        btnBuscarPeliculas.setFont(new Font("Arial", Font.BOLD, 16));
+        btnBuscarPeliculas.setBackground(new Color(70, 130, 180));
+        btnBuscarPeliculas.setForeground(Color.WHITE);
         btnBuscarPeliculas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BuscarPeliculas ventanaBuscarPeliculas = new BuscarPeliculas();
@@ -34,10 +30,12 @@ public class ClientWindow extends JFrame {
                 dispose();
             }
         });
-        gbc.gridx = 0;
-        add(btnBuscarPeliculas, gbc);
+        pnlBotones.add(btnBuscarPeliculas);
 
-        btnVerHorarios = createButton("Ver Horarios", "ver_horarios.png");
+        btnVerHorarios = new JButton("Ver Horarios");
+        btnVerHorarios.setFont(new Font("Arial", Font.BOLD, 16));
+        btnVerHorarios.setBackground(new Color(70, 130, 180));
+        btnVerHorarios.setForeground(Color.WHITE);
         btnVerHorarios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 VerHorarios ventanaVerHorarios = new VerHorarios();
@@ -45,49 +43,43 @@ public class ClientWindow extends JFrame {
                 dispose();
             }
         });
-        gbc.gridy = 2;
-        add(btnVerHorarios, gbc);
+        pnlBotones.add(btnVerHorarios);
 
-        btnReservarAsiento = createButton("Reservar Asiento", "reservar_asiento.png");
+        btnReservarAsiento = new JButton("Reservar Asiento");
+        btnReservarAsiento.setFont(new Font("Arial", Font.BOLD, 16));
+        btnReservarAsiento.setBackground(new Color(70, 130, 180));
+        btnReservarAsiento.setForeground(Color.WHITE);
         btnReservarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ReservarAsiento ventanaReservarAsiento = new ReservarAsiento();
                 ventanaReservarAsiento.setVisible(true);
+                dispose();
             }
         });
-        gbc.gridy = 3;
-        add(btnReservarAsiento, gbc);
+        pnlBotones.add(btnReservarAsiento);
 
-        btnVerHistorial = createButton("Ver Historial de Reservas", "ver_historial.png");
+        btnVerHistorial = new JButton("Ver Historial de Reservas");
+        btnVerHistorial.setFont(new Font("Arial", Font.BOLD, 16));
+        btnVerHistorial.setBackground(new Color(70, 130, 180));
+        btnVerHistorial.setForeground(Color.WHITE);
         btnVerHistorial.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String input = JOptionPane.showInputDialog("Ingrese el ID del cliente:");
-                int clienteId;
-                try {
-                    clienteId = Integer.parseInt(input);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "ID de cliente no válido. Usando ID predeterminado 3.");
-                    clienteId = 3; // ID predeterminado en caso de entrada no válida
+                String nombreCliente = JOptionPane.showInputDialog("Ingrese el nombre del cliente:");
+                if (nombreCliente != null && !nombreCliente.trim().isEmpty()) {
+                    VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas(nombreCliente);
+                    ventanaVerHistorialReservas.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nombre de cliente no válido.");
                 }
-                VerHistorialReservas ventanaVerHistorialReservas = new VerHistorialReservas(clienteId);
-                ventanaVerHistorialReservas.setVisible(true);
             }
         });
-        gbc.gridy = 4;
-        add(btnVerHistorial, gbc);
+        pnlBotones.add(btnVerHistorial);
 
-        setSize(400, 500); // Ajusta el tamaño de la ventana
+        add(pnlBotones);
+
+        setSize(400, 400); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
-    }
-
-    private JButton createButton(String text, String imagePath) {
-        JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.PLAIN, 16));
-        button.setIcon(new ImageIcon(imagePath));
-        button.setHorizontalAlignment(SwingConstants.LEFT);
-        button.setPreferredSize(new Dimension(250, 50));
-        return button;
     }
 
     public static void main(String[] args) {
