@@ -17,31 +17,47 @@ public class EditarHorario extends JFrame {
         super("Editar Horario");
         this.gestionHorarios = gestionHorarios;
         this.horarioId = horarioId;
-        setLayout(new GridLayout(5, 2));
+        setLayout(new GridLayout(6, 2));
+        setBackground(new Color(255, 255, 255)); // Fondo blanco
 
+        // Etiquetas y campos de texto
         JLabel lblPeliculaId = new JLabel("ID de Película:");
+        lblPeliculaId.setFont(new Font("Arial", Font.BOLD, 14));
+        lblPeliculaId.setForeground(new Color(50, 50, 50)); // Gris oscuro
         txtPeliculaId = new JTextField(20);
+        txtPeliculaId.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lblPeliculaId);
         add(txtPeliculaId);
 
         JLabel lblFecha = new JLabel("Fecha (YYYY-MM-DD):");
+        lblFecha.setFont(new Font("Arial", Font.BOLD, 14));
+        lblFecha.setForeground(new Color(50, 50, 50)); // Gris oscuro
         txtFecha = new JTextField(20);
+        txtFecha.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lblFecha);
         add(txtFecha);
 
         JLabel lblHora = new JLabel("Hora (HH:MM:SS):");
+        lblHora.setFont(new Font("Arial", Font.BOLD, 14));
+        lblHora.setForeground(new Color(50, 50, 50)); // Gris oscuro
         txtHora = new JTextField(20);
+        txtHora.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lblHora);
         add(txtHora);
 
         JLabel lblSala = new JLabel("Sala:");
+        lblSala.setFont(new Font("Arial", Font.BOLD, 14));
+        lblSala.setForeground(new Color(50, 50, 50)); // Gris oscuro
         txtSala = new JTextField(20);
+        txtSala.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lblSala);
         add(txtSala);
 
-        cargarDatosHorario();
-
+        // Botón Guardar
         btnGuardar = new JButton("Guardar");
+        btnGuardar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnGuardar.setBackground(new Color(34, 139, 34)); // Verde oscuro
+        btnGuardar.setForeground(Color.WHITE); // Texto blanco
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int peliculaId = Integer.parseInt(txtPeliculaId.getText());
@@ -71,7 +87,11 @@ public class EditarHorario extends JFrame {
         });
         add(btnGuardar);
 
+        // Botón Cancelar
         btnCancelar = new JButton("Cancelar");
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCancelar.setBackground(new Color(255, 69, 58)); // Rojo claro
+        btnCancelar.setForeground(Color.WHITE); // Texto blanco
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana actual
@@ -80,6 +100,8 @@ public class EditarHorario extends JFrame {
             }
         });
         add(btnCancelar);
+
+        cargarDatosHorario();
 
         setSize(400, 300); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
