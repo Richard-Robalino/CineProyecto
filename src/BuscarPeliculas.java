@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -17,13 +18,22 @@ public class BuscarPeliculas extends JFrame {
         // Panel de búsqueda
         JPanel pnlBuscar = new JPanel();
         pnlBuscar.setLayout(new FlowLayout());
+        pnlBuscar.setBackground(new Color(220, 220, 220)); // Color gris claro
+
         txtBuscar = new JTextField(20);
+        txtBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
+        txtBuscar.setForeground(new Color(50, 50, 50)); // Color de texto gris oscuro
+
         btnBuscar = new JButton("Buscar");
+        btnBuscar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnBuscar.setBackground(new Color(34, 139, 34)); // Color verde oscuro
+        btnBuscar.setForeground(Color.WHITE); // Texto blanco
         btnBuscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 buscarPeliculas();
             }
         });
+
         pnlBuscar.add(txtBuscar);
         pnlBuscar.add(btnBuscar);
         add(pnlBuscar, BorderLayout.NORTH);
@@ -31,16 +41,26 @@ public class BuscarPeliculas extends JFrame {
         // Panel de resultados
         JPanel pnlResultados = new JPanel();
         pnlResultados.setLayout(new BorderLayout());
+        pnlResultados.setBackground(new Color(240, 240, 240)); // Color gris claro
+
         tblPeliculas = new JTable();
         modelo = new DefaultTableModel();
         modelo.addColumn("Título");
         modelo.addColumn("Duración");
         modelo.addColumn("Clasificación");
         tblPeliculas.setModel(modelo);
+        tblPeliculas.setFont(new Font("Arial", Font.PLAIN, 14));
+        tblPeliculas.setForeground(new Color(50, 50, 50)); // Color de texto gris oscuro
+
+        // Configurar el encabezado de la tabla
+        JTableHeader header = tblPeliculas.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        header.setForeground(new Color(34, 139, 34)); // Color verde oscuro
+
         pnlResultados.add(new JScrollPane(tblPeliculas), BorderLayout.CENTER);
         add(pnlResultados, BorderLayout.CENTER);
 
-        setSize(400, 300);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
