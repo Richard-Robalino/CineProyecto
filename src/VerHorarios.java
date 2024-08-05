@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.sql.*;
 
 public class VerHorarios extends JFrame {
-    private JComboBox cmbPeliculas;
+    private JComboBox<String> cmbPeliculas;
     private JButton btnVerHorarios;
     private JTable tblHorarios;
     private DefaultTableModel modelo;
@@ -16,24 +16,36 @@ public class VerHorarios extends JFrame {
 
         // Panel de selección de película
         JPanel pnlPelicula = new JPanel();
-        pnlPelicula.setLayout(new FlowLayout());
+        pnlPelicula.setLayout(new FlowLayout(FlowLayout.LEFT));
+        pnlPelicula.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Espaciado
+
         JLabel lblPelicula = new JLabel("Seleccione una película:");
-        cmbPeliculas = new JComboBox();
+        lblPelicula.setFont(new Font("Arial", Font.BOLD, 14));
+
+        cmbPeliculas = new JComboBox<>();
+        cmbPeliculas.setFont(new Font("Arial", Font.PLAIN, 14));
         cargarPeliculas();
+
         btnVerHorarios = new JButton("Ver Horarios");
+        btnVerHorarios.setBackground(new Color(0, 123, 255));
+        btnVerHorarios.setForeground(Color.WHITE);
+        btnVerHorarios.setFocusPainted(false);
+        btnVerHorarios.setFont(new Font("Arial", Font.BOLD, 14));
         btnVerHorarios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 verHorarios();
             }
         });
+
         pnlPelicula.add(lblPelicula);
         pnlPelicula.add(cmbPeliculas);
         pnlPelicula.add(btnVerHorarios);
         add(pnlPelicula, BorderLayout.NORTH);
 
         // Panel de resultados
-        JPanel pnlResultados = new JPanel();
-        pnlResultados.setLayout(new BorderLayout());
+        JPanel pnlResultados = new JPanel(new BorderLayout());
+        pnlResultados.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Espaciado
+
         tblHorarios = new JTable();
         modelo = new DefaultTableModel();
         modelo.addColumn("Fecha");
@@ -41,77 +53,66 @@ public class VerHorarios extends JFrame {
         modelo.addColumn("Sala");
         modelo.addColumn("Disponible");
         tblHorarios.setModel(modelo);
-        pnlResultados.add(new JScrollPane(tblHorarios), BorderLayout.CENTER);
+        tblHorarios.setRowHeight(30);
+        tblHorarios.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JScrollPane scrollPane = new JScrollPane(tblHorarios);
+        pnlResultados.add(scrollPane, BorderLayout.CENTER);
         add(pnlResultados, BorderLayout.CENTER);
 
-        setSize(400, 300);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
     private void cargarPeliculas() {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM peliculas");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM peliculas")) {
 
             while (rs.next()) {
                 cmbPeliculas.addItem(rs.getString("titulo"));
             }
-
-            rs.close();
-            stmt.close();
-            conn.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar películas: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al cargar películas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void verHorarios() {
         int peliculaId = getPeliculaId((String) cmbPeliculas.getSelectedItem());
         if (peliculaId == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una película válida");
+            JOptionPane.showMessageDialog(this, "Seleccione una película válida", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM horarios WHERE pelicula_id = " + peliculaId);
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM horarios WHERE pelicula_id = " + peliculaId)) {
 
-            modelo.setRowCount(0);
+            modelo.setRowCount(0); // Limpiar datos anteriores
             while (rs.next()) {
                 Object[] fila = new Object[4];
                 fila[0] = rs.getDate("fecha");
                 fila[1] = rs.getTime("hora");
                 fila[2] = rs.getInt("sala");
-                fila[3] = rs.getBoolean("disponible")? "Sí" : "No";
+                fila[3] = rs.getBoolean("disponible") ? "Sí" : "No";
                 modelo.addRow(fila);
             }
-
-            rs.close();
-            stmt.close();
-            conn.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al ver horarios: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al ver horarios: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private int getPeliculaId(String peliculaTitulo) {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT id FROM peliculas WHERE titulo = '" + peliculaTitulo + "'");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT id FROM peliculas WHERE titulo = '" + peliculaTitulo + "'")) {
 
             if (rs.next()) {
                 return rs.getInt("id");
             }
-
-            rs.close();
-            stmt.close();
-            conn.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al obtener ID de película: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al obtener ID de película: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return -1;
