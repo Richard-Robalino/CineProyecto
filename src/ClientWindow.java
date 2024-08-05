@@ -11,18 +11,23 @@ public class ClientWindow extends JFrame {
 
     public ClientWindow() {
         super("Panel de Cliente");
-        setLayout(new GridLayout(5, 1, 10, 10)); // Ajuste de espaciado en el GridLayout
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Panel de botones
-        JPanel pnlBotones = new JPanel();
-        pnlBotones.setLayout(new GridLayout(4, 1, 10, 10));
-        pnlBotones.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        pnlBotones.setBackground(new Color(200, 220, 240));
+        JLabel lblTitle = new JLabel("Panel de Cliente", JLabel.CENTER);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitle.setForeground(Color.BLUE);
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(lblTitle, gbc);
 
-        btnBuscarPeliculas = new JButton("Buscar Películas");
-        btnBuscarPeliculas.setFont(new Font("Arial", Font.BOLD, 16));
-        btnBuscarPeliculas.setBackground(new Color(70, 130, 180));
-        btnBuscarPeliculas.setForeground(Color.WHITE);
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
+
+        btnBuscarPeliculas = createButton("Buscar Películas");
         btnBuscarPeliculas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BuscarPeliculas ventanaBuscarPeliculas = new BuscarPeliculas();
@@ -30,12 +35,10 @@ public class ClientWindow extends JFrame {
                 dispose();
             }
         });
-        pnlBotones.add(btnBuscarPeliculas);
+        gbc.gridx = 0;
+        add(btnBuscarPeliculas, gbc);
 
-        btnVerHorarios = new JButton("Ver Horarios");
-        btnVerHorarios.setFont(new Font("Arial", Font.BOLD, 16));
-        btnVerHorarios.setBackground(new Color(70, 130, 180));
-        btnVerHorarios.setForeground(Color.WHITE);
+        btnVerHorarios = createButton("Ver Horarios");
         btnVerHorarios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 VerHorarios ventanaVerHorarios = new VerHorarios();
@@ -43,12 +46,10 @@ public class ClientWindow extends JFrame {
                 dispose();
             }
         });
-        pnlBotones.add(btnVerHorarios);
+        gbc.gridy = 2;
+        add(btnVerHorarios, gbc);
 
-        btnReservarAsiento = new JButton("Reservar Asiento");
-        btnReservarAsiento.setFont(new Font("Arial", Font.BOLD, 16));
-        btnReservarAsiento.setBackground(new Color(70, 130, 180));
-        btnReservarAsiento.setForeground(Color.WHITE);
+        btnReservarAsiento = createButton("Reservar Asiento");
         btnReservarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ReservarAsiento ventanaReservarAsiento = new ReservarAsiento();
@@ -56,12 +57,10 @@ public class ClientWindow extends JFrame {
                 dispose();
             }
         });
-        pnlBotones.add(btnReservarAsiento);
+        gbc.gridy = 3;
+        add(btnReservarAsiento, gbc);
 
-        btnVerHistorial = new JButton("Ver Historial de Reservas");
-        btnVerHistorial.setFont(new Font("Arial", Font.BOLD, 16));
-        btnVerHistorial.setBackground(new Color(70, 130, 180));
-        btnVerHistorial.setForeground(Color.WHITE);
+        btnVerHistorial = createButton("Ver Historial de Reservas");
         btnVerHistorial.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String nombreCliente = JOptionPane.showInputDialog("Ingrese el nombre del cliente:");
@@ -73,13 +72,19 @@ public class ClientWindow extends JFrame {
                 }
             }
         });
-        pnlBotones.add(btnVerHistorial);
+        gbc.gridy = 4;
+        add(btnVerHistorial, gbc);
 
-        add(pnlBotones);
-
-        setSize(400, 400); // Ajusta el tamaño de la ventana
+        setSize(400, 500); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
+    }
+
+    private JButton createButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.PLAIN, 16));
+        button.setPreferredSize(new Dimension(200, 50));
+        return button;
     }
 
     public static void main(String[] args) {
