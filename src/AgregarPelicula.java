@@ -15,29 +15,77 @@ public class AgregarPelicula extends JFrame {
     public AgregarPelicula(AdminWindow adminWindow) {
         super("Agregar Película");
         this.adminWindow = adminWindow; // Guardar la referencia
-        setLayout(new GridLayout(5, 2));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Espaciado
 
+        // Fondo de la ventana
+        getContentPane().setBackground(new Color(250, 250, 250)); // Color gris claro
+
+        // Título
         JLabel lblTitulo = new JLabel("Título:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(lblTitulo, gbc);
+
         txtTitulo = new JTextField(20);
-        add(lblTitulo);
-        add(txtTitulo);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(txtTitulo, gbc);
 
+        // Duración
         JLabel lblDuracion = new JLabel("Duración (minutos):");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(lblDuracion, gbc);
+
         txtDuracion = new JTextField(20);
-        add(lblDuracion);
-        add(txtDuracion);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(txtDuracion, gbc);
 
+        // Descripción
         JLabel lblDescripcion = new JLabel("Descripción:");
-        txtDescripcion = new JTextArea(5, 20);
-        add(lblDescripcion);
-        add(new JScrollPane(txtDescripcion)); // Usar JScrollPane para el JTextArea
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
+        add(lblDescripcion, gbc);
 
+        txtDescripcion = new JTextArea(5, 20);
+        txtDescripcion.setLineWrap(true);
+        txtDescripcion.setWrapStyleWord(true);
+        JScrollPane scrollPaneDescripcion = new JScrollPane(txtDescripcion);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(scrollPaneDescripcion, gbc);
+
+        // Clasificación
         JLabel lblClasificacion = new JLabel("Clasificación:");
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(lblClasificacion, gbc);
+
         txtClasificacion = new JTextField(20);
-        add(lblClasificacion);
-        add(txtClasificacion);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(txtClasificacion, gbc);
+
+        // Botones
+        JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelBotones.setBackground(new Color(250, 250, 250)); // Color gris claro
 
         btnGuardar = new JButton("Guardar");
+        btnGuardar.setBackground(new Color(34, 139, 34)); // Color verde oscuro
+        btnGuardar.setForeground(Color.WHITE); // Color blanco para el texto
+        btnGuardar.setFont(new Font("Arial", Font.BOLD, 14));
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String titulo = txtTitulo.getText();
@@ -67,9 +115,12 @@ public class AgregarPelicula extends JFrame {
                 }
             }
         });
-        add(btnGuardar);
+        panelBotones.add(btnGuardar);
 
         btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBackground(new Color(255, 69, 58)); // Color rojo
+        btnCancelar.setForeground(Color.WHITE); // Color blanco para el texto
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana actual
@@ -77,9 +128,14 @@ public class AgregarPelicula extends JFrame {
                 ventanaAdmin.setVisible(true); // Abre la ventana de AdminWindow
             }
         });
-        add(btnCancelar);
+        panelBotones.add(btnCancelar);
 
-        setSize(400, 300); // Ajusta el tamaño de la ventana
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(panelBotones, gbc);
+
+        setSize(400, 400); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }

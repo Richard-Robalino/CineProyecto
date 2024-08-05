@@ -9,7 +9,6 @@ public class GestionHorarios extends JFrame {
     private JButton btnAgregarHorario;
     private JButton btnEditarHorario;
     private JButton btnEliminarHorario;
-    private JButton btnVerHorarios;
     private JButton btnCancelar;
     AdminWindow adminWindow; // Referencia al AdminWindow
 
@@ -18,17 +17,26 @@ public class GestionHorarios extends JFrame {
         this.adminWindow = adminWindow; // Guardar la referencia
         setLayout(new BorderLayout());
 
+        // Fondo de la ventana
+        getContentPane().setBackground(new Color(240, 240, 240)); // Color gris claro
+
         // Panel para la tabla de horarios
         JPanel panelTabla = new JPanel(new BorderLayout());
         tableHorarios = new JTable();
         actualizarTabla();
-        panelTabla.add(new JScrollPane(tableHorarios), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(tableHorarios);
+        panelTabla.add(scrollPane, BorderLayout.CENTER);
         add(panelTabla, BorderLayout.CENTER);
 
         // Panel para los botones
         JPanel panelBotones = new JPanel(new FlowLayout());
+        panelBotones.setBackground(new Color(240, 240, 240)); // Color gris claro
 
+        // Botón Agregar Horario
         btnAgregarHorario = new JButton("Agregar Horario");
+        btnAgregarHorario.setBackground(new Color(34, 139, 34)); // Color verde oscuro
+        btnAgregarHorario.setForeground(Color.WHITE); // Texto blanco
+        btnAgregarHorario.setFont(new Font("Arial", Font.BOLD, 14));
         btnAgregarHorario.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AgregarHorario ventanaAgregarHorario = new AgregarHorario(GestionHorarios.this);
@@ -38,7 +46,11 @@ public class GestionHorarios extends JFrame {
         });
         panelBotones.add(btnAgregarHorario);
 
+        // Botón Editar Horario
         btnEditarHorario = new JButton("Editar Horario");
+        btnEditarHorario.setBackground(new Color(70, 130, 180)); // Color azul acero
+        btnEditarHorario.setForeground(Color.WHITE); // Texto blanco
+        btnEditarHorario.setFont(new Font("Arial", Font.BOLD, 14));
         btnEditarHorario.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tableHorarios.getSelectedRow();
@@ -54,7 +66,11 @@ public class GestionHorarios extends JFrame {
         });
         panelBotones.add(btnEditarHorario);
 
+        // Botón Eliminar Horario
         btnEliminarHorario = new JButton("Eliminar Horario");
+        btnEliminarHorario.setBackground(new Color(255, 69, 58)); // Color rojo
+        btnEliminarHorario.setForeground(Color.WHITE); // Texto blanco
+        btnEliminarHorario.setFont(new Font("Arial", Font.BOLD, 14));
         btnEliminarHorario.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tableHorarios.getSelectedRow();
@@ -72,9 +88,11 @@ public class GestionHorarios extends JFrame {
         });
         panelBotones.add(btnEliminarHorario);
 
-
-
+        // Botón Cancelar
         btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBackground(new Color(105, 105, 105)); // Color gris oscuro
+        btnCancelar.setForeground(Color.WHITE); // Texto blanco
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana actual
