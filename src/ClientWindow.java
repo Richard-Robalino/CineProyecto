@@ -10,9 +10,9 @@ public class ClientWindow extends JFrame {
     private JButton btnVerHistorial;
     private int usuarioId;
     public ClientWindow(int usuarioId) {
-        this.usuarioId = usuarioId;
-        //super("Panel de Cliente");
 
+        super("Panel de Cliente");
+        this.usuarioId = usuarioId;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);

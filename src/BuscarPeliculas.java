@@ -8,6 +8,7 @@ import java.sql.*;
 public class BuscarPeliculas extends JFrame {
     private JTextField txtBuscar;
     private JButton btnBuscar;
+    private JButton btnCancelar;
     private JTable tblPeliculas;
     private DefaultTableModel modelo;
 
@@ -34,8 +35,20 @@ public class BuscarPeliculas extends JFrame {
             }
         });
 
+        // Botón Cancelar
+        btnCancelar = new JButton("Cancelar");
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCancelar.setBackground(new Color(255, 69, 0)); // Color rojo oscuro
+        btnCancelar.setForeground(Color.WHITE); // Texto blanco
+        btnCancelar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                volverAlMenuCliente();
+            }
+        });
+
         pnlBuscar.add(txtBuscar);
         pnlBuscar.add(btnBuscar);
+        pnlBuscar.add(btnCancelar);
         add(pnlBuscar, BorderLayout.NORTH);
 
         // Panel de resultados
@@ -92,6 +105,12 @@ public class BuscarPeliculas extends JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al buscar películas: " + ex.getMessage());
         }
+    }
+
+    private void volverAlMenuCliente() {
+        ClientWindow ventanaCliente = new ClientWindow(1); // Reemplaza 1 con el ID de usuario correspondiente
+        ventanaCliente.setVisible(true);
+        dispose();
     }
 
     public static void main(String[] args) {
