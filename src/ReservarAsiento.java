@@ -82,13 +82,17 @@ public class ReservarAsiento extends JFrame {
         btnReservar.addActionListener(e -> reservarAsiento());
         pnlBotones.add(btnReservar);
 
-        // Botón para volver al menú principal
-        btnVolverMenu = new JButton("Volver al Menú Principal");
-        btnVolverMenu.setBackground(new Color(255, 69, 0));
-        btnVolverMenu.setForeground(Color.WHITE);
-        btnVolverMenu.setFont(new Font("Arial", Font.BOLD, 16));
-        //btnVolverMenu.addActionListener(e -> volverAlMenuPrincipal());
-        pnlBotones.add(btnVolverMenu);
+        // Botón Cancelar
+        btnCancelar = new JButton("Cancelar");
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCancelar.setBackground(new Color(255, 69, 0)); // Color rojo oscuro
+        btnCancelar.setForeground(Color.WHITE); // Texto blanco
+        btnCancelar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                volverAlMenuCliente();
+            }
+        });
+        pnlBotones.add(btnCancelar);
 
         add(pnlBotones, BorderLayout.SOUTH);
 
@@ -238,6 +242,11 @@ public class ReservarAsiento extends JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al actualizar disponibilidad del asiento: " + ex.getMessage());
         }
+    }
+    private void volverAlMenuCliente() {
+        ClientWindow ventanaCliente = new ClientWindow(1); // Reemplaza 1 con el ID de usuario correspondiente
+        ventanaCliente.setVisible(true);
+        dispose();
     }
 /*
     private void volverAlMenuPrincipal() {
