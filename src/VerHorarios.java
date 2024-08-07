@@ -7,6 +7,7 @@ import java.sql.*;
 public class VerHorarios extends JFrame {
     private JComboBox<String> cmbPeliculas;
     private JButton btnVerHorarios;
+    private JButton btnCancelar;
     private JTable tblHorarios;
     private DefaultTableModel modelo;
 
@@ -37,9 +38,21 @@ public class VerHorarios extends JFrame {
             }
         });
 
+        // Botón Cancelar
+        btnCancelar = new JButton("Cancelar");
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCancelar.setBackground(new Color(255, 69, 0)); // Color rojo oscuro
+        btnCancelar.setForeground(Color.WHITE); // Texto blanco
+        btnCancelar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                volverAlMenuCliente();
+            }
+        });
+
         pnlPelicula.add(lblPelicula);
         pnlPelicula.add(cmbPeliculas);
         pnlPelicula.add(btnVerHorarios);
+        pnlPelicula.add(btnCancelar);
         add(pnlPelicula, BorderLayout.NORTH);
 
         // Panel de resultados
@@ -117,7 +130,11 @@ public class VerHorarios extends JFrame {
 
         return -1;
     }
-
+    private void volverAlMenuCliente() {
+        ClientWindow ventanaCliente = new ClientWindow(1); // Reemplaza 1 con el ID de usuario correspondiente
+        ventanaCliente.setVisible(true);
+        dispose();
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             VerHorarios ventanaVerHorarios = new VerHorarios();
