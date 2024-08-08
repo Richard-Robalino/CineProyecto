@@ -94,7 +94,7 @@ public class AgregarPelicula extends JFrame {
                 String clasificacion = txtClasificacion.getText();
 
                 // Lógica para guardar la película en la base de datos
-                try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
+                try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
                     String query = "INSERT INTO peliculas (titulo, duracion, descripcion, clasificacion) VALUES (?, ?, ?, ?)";
                     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                         pstmt.setString(1, titulo);
