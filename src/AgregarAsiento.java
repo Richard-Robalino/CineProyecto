@@ -10,9 +10,11 @@ public class AgregarAsiento extends JFrame {
     private JCheckBox chkDisponible;
     private JButton btnGuardar;
     private JButton btnCancelar;
+    private GestionAsientos gestionAsientos;
 
-    public AgregarAsiento(JFrame parent) {
+    public AgregarAsiento(GestionAsientos gestionAsientos) {
         super("Agregar Asiento");
+        this.gestionAsientos = gestionAsientos; // Guardar referencia a GestionAsientos
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -69,8 +71,10 @@ public class AgregarAsiento extends JFrame {
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                parent.setVisible(true);
-                dispose();
+                dispose(); // Cierra la ventana actual
+                if (gestionAsientos != null) {
+                    gestionAsientos.setVisible(true); // Muestra la ventana de GestionAsientos
+                }
             }
         });
         gbc.gridy = 5;

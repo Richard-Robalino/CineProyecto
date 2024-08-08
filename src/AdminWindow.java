@@ -81,6 +81,7 @@ public class AdminWindow extends JFrame {
         });
         gbc.gridy = 5;
         add(btnGestionarAsientos, gbc);
+        ;
 
         setSize(400, 500); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
