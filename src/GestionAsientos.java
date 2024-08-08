@@ -39,14 +39,21 @@ public class GestionAsientos extends JFrame {
             }
         });
         panelBotones.add(btnEliminarAsiento);
-
         btnActualizarAsiento = new JButton("Actualizar Asiento");
         btnActualizarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                actualizarAsiento();
+                int selectedRow = tablaAsientos.getSelectedRow();
+                if (selectedRow != -1) {
+                    int asientoId = (int) modeloTabla.getValueAt(selectedRow, 0);
+                    ActualizarAsiento ventanaActualizar = new ActualizarAsiento(GestionAsientos.this, asientoId);
+                    ventanaActualizar.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(GestionAsientos.this, "Debe seleccionar un asiento para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         panelBotones.add(btnActualizarAsiento);
+
 
         add(panelBotones, BorderLayout.SOUTH);
 
