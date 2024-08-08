@@ -6,6 +6,8 @@ import java.sql.*;
 /**
  * Clase Login proporciona una interfaz para el inicio de sesión de usuarios.
  * Permite a los usuarios ingresar su nombre de usuario, contraseña y rol para autenticar el acceso a la aplicación.
+ @author Richard Robalino
+  * @version 1.1
  */
 public class Login extends JFrame {
     private JTextField txtUsuario;
