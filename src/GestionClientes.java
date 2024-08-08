@@ -2,9 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 public class GestionClientes extends JFrame {
     private JTable tableClientes;
@@ -23,7 +21,6 @@ public class GestionClientes extends JFrame {
         JPanel panelTabla = new JPanel(new BorderLayout());
         tableClientes = new JTable();
         tableClientes.setFillsViewportHeight(true);
-        tableClientes.setRowHeight(100);
         tableClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         actualizarTabla();
         panelTabla.add(new JScrollPane(tableClientes), BorderLayout.CENTER);
@@ -111,31 +108,20 @@ public class GestionClientes extends JFrame {
 
     private void actualizarTabla() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
-            String query = "SELECT id, username, password, rol, foto FROM usuarios WHERE rol='CLIENTE' OR rol='ADMINISTRADOR'";
+            String query = "SELECT id, username, password, rol FROM usuarios WHERE rol='CLIENTE' OR rol='ADMINISTRADOR'";
             try (PreparedStatement pstmt = conn.prepareStatement(query);
                  ResultSet rs = pstmt.executeQuery()) {
 
-                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Username", "Password", "Rol", "Foto"}, 0);
+                DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Username", "Password", "Rol"}, 0);
                 while (rs.next()) {
-                    ImageIcon foto = null;
-                    byte[] imgBytes = rs.getBytes("foto");
-                    if (imgBytes != null) {
-                        Image img = Toolkit.getDefaultToolkit().createImage(imgBytes);
-                        ImageIcon icon = new ImageIcon(img);
-                        Image scaledImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                        foto = new ImageIcon(scaledImage);
-                    }
                     model.addRow(new Object[]{
                             rs.getInt("id"),
                             rs.getString("username"),
                             rs.getString("password"),
-                            rs.getString("rol"),
-                            foto
+                            rs.getString("rol")
                     });
                 }
                 tableClientes.setModel(model);
-                TableColumn column = tableClientes.getColumnModel().getColumn(4);
-                column.setCellRenderer(new ImageRenderer());
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al conectar a la base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -162,15 +148,5 @@ public class GestionClientes extends JFrame {
             AdminWindow ventanaAdmin = new AdminWindow();
             ventanaAdmin.setVisible(true);
         });
-    }
-}
-
-class ImageRenderer extends DefaultTableCellRenderer {
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        if (value instanceof ImageIcon) {
-            return new JLabel((ImageIcon) value);
-        }
-        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
 }
