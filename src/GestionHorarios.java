@@ -14,7 +14,7 @@ public class GestionHorarios extends JFrame {
     private JButton btnEditarHorario;
     private JButton btnEliminarHorario;
     private JButton btnCancelar;
-    private AdminWindow adminWindow; // Referencia al AdminWindow
+    AdminWindow adminWindow; // Referencia al AdminWindow
 
     /**
      * Constructor de la clase GestionHorarios.
