@@ -78,9 +78,9 @@ public class ClientWindow extends JFrame {
         gbc.gridy = 4;
         add(btnVerHistorial, gbc);
 
-        setSize(400, 500); // Ajusta el tamaño de la ventana
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     private JButton createButton(String text) {

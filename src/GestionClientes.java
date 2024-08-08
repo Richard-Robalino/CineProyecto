@@ -39,7 +39,7 @@ public class GestionClientes extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AgregarCliente ventanaAgregarCliente = new AgregarCliente(GestionClientes.this);
                 ventanaAgregarCliente.setVisible(true);
-                actualizarTabla(); // Actualiza la tabla después de agregar un cliente
+                actualizarTabla();
             }
         });
         panelBotones.add(btnAgregarCliente);
@@ -56,7 +56,7 @@ public class GestionClientes extends JFrame {
                     int clienteId = (int) tableClientes.getValueAt(selectedRow, 0);
                     EditarCliente ventanaEditarCliente = new EditarCliente(GestionClientes.this, clienteId);
                     ventanaEditarCliente.setVisible(true);
-                    dispose(); // Cierra la ventana actual
+                    dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para editar.");
                 }
@@ -77,7 +77,7 @@ public class GestionClientes extends JFrame {
                     int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este cliente?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         eliminarCliente(clienteId);
-                        actualizarTabla(); // Actualiza la tabla después de eliminar un cliente
+                        actualizarTabla();
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.");
@@ -93,17 +93,17 @@ public class GestionClientes extends JFrame {
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
-                adminWindow.setVisible(true); // Abre la ventana de AdminWindow
+                dispose();
+                adminWindow.setVisible(true);
             }
         });
         panelBotones.add(btnCancelar);
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        setSize(800, 600); // Ajusta el tamaño de la ventana
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     private void actualizarTabla() {

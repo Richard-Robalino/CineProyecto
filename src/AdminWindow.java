@@ -83,7 +83,7 @@ public class AdminWindow extends JFrame {
         add(btnGestionarAsientos, gbc);
         ;
 
-        setSize(400, 500); // Ajusta el tamaño de la ventana
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }

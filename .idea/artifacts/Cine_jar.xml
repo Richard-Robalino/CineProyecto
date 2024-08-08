@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Cine:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Cine_jar</output-path>
+    <root id="archive" name="Cine.jar">
+      <element id="module-output" name="Cine" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../mysql-connector-j-9.0.0/mysql-connector-j-9.0.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

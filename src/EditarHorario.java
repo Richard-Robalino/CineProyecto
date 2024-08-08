@@ -77,7 +77,7 @@ public class EditarHorario extends JFrame {
                         JOptionPane.showMessageDialog(null, "Horario actualizado exitosamente");
                         dispose(); // Cierra la ventana actual
                         GestionHorarios ventanaGestionHorarios = new GestionHorarios(gestionHorarios.adminWindow);
-                        ventanaGestionHorarios.setVisible(true); // Abre la ventana de GestionHorarios
+                        ventanaGestionHorarios.setVisible(true);
                     }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
@@ -94,18 +94,18 @@ public class EditarHorario extends JFrame {
         btnCancelar.setForeground(Color.WHITE); // Texto blanco
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
+                dispose();
                 GestionHorarios ventanaGestionHorarios = new GestionHorarios(gestionHorarios.adminWindow);
-                ventanaGestionHorarios.setVisible(true); // Abre la ventana de GestionHorarios
+                ventanaGestionHorarios.setVisible(true);
             }
         });
         add(btnCancelar);
 
         cargarDatosHorario();
 
-        setSize(400, 300); // Ajusta el tamaño de la ventana
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     private void cargarDatosHorario() {

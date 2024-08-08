@@ -201,7 +201,7 @@ public class ReservarAsiento extends JFrame {
                 // Marcar el asiento como no disponible
                 marcarAsientoNoDisponible(asientoId);
                 JOptionPane.showMessageDialog(this, "Asiento reservado con éxito");
-                verSala(); // Actualizar la vista de asientos
+                verSala();
             } else {
                 JOptionPane.showMessageDialog(this, "Error al reservar el asiento");
             }

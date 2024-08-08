@@ -14,7 +14,7 @@ public class GestionHorarios extends JFrame {
 
     public GestionHorarios(AdminWindow adminWindow) {
         super("Gestionar Horarios");
-        this.adminWindow = adminWindow; // Guardar la referencia
+        this.adminWindow = adminWindow;
         setLayout(new BorderLayout());
 
         // Fondo de la ventana
@@ -41,7 +41,7 @@ public class GestionHorarios extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AgregarHorario ventanaAgregarHorario = new AgregarHorario(GestionHorarios.this);
                 ventanaAgregarHorario.setVisible(true);
-                dispose(); // Cierra GestionHorarios
+                dispose();
             }
         });
         panelBotones.add(btnAgregarHorario);
@@ -58,7 +58,7 @@ public class GestionHorarios extends JFrame {
                     int horarioId = (int) tableHorarios.getValueAt(selectedRow, 0);
                     EditarHorario ventanaEditarHorario = new EditarHorario(GestionHorarios.this, horarioId);
                     ventanaEditarHorario.setVisible(true);
-                    dispose(); // Cierra GestionHorarios
+                    dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione un horario para editar.");
                 }
@@ -95,18 +95,18 @@ public class GestionHorarios extends JFrame {
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
+                dispose();
                 AdminWindow ventanaAdmin = new AdminWindow();
-                ventanaAdmin.setVisible(true); // Abre la ventana de AdminWindow
+                ventanaAdmin.setVisible(true);
             }
         });
         panelBotones.add(btnCancelar);
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        setSize(800, 400); // Ajusta el tamaño de la ventana
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     private void actualizarTabla() {

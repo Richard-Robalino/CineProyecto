@@ -27,7 +27,7 @@ public class VerHistorialReservas extends JFrame {
         txtNombreUsuario = new JTextField(20);
         txtNombreUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
         txtNombreUsuario.setText(nombreUsuario);
-        txtNombreUsuario.setEditable(false); // Nombre de usuario no editable
+        txtNombreUsuario.setEditable(false);
 
         pnlBusqueda.add(lblNombreUsuario);
         pnlBusqueda.add(txtNombreUsuario);

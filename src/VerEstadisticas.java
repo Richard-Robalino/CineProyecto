@@ -7,11 +7,11 @@ import javax.swing.table.DefaultTableModel;
 public class VerEstadisticas extends JFrame {
     private JTable tableEstadisticas;
     private JButton btnCancelar;
-    private AdminWindow adminWindow; // Referencia al AdminWindow
+    private AdminWindow adminWindow;
 
     public VerEstadisticas(AdminWindow adminWindow) {
         super("Ver Estadísticas");
-        this.adminWindow = adminWindow; // Guardar la referencia
+        this.adminWindow = adminWindow;
         setLayout(new BorderLayout());
 
         // Panel para la tabla de estadísticas
@@ -34,17 +34,17 @@ public class VerEstadisticas extends JFrame {
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
-                adminWindow.setVisible(true); // Abre la ventana de AdminWindow
+                dispose();
+                adminWindow.setVisible(true);
             }
         });
         panelBotones.add(btnCancelar);
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        setSize(600, 400); // Ajusta el tamaño de la ventana
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     private void actualizarEstadisticas() {

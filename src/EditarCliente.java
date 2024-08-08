@@ -64,7 +64,7 @@ public class EditarCliente extends JFrame {
                         JOptionPane.showMessageDialog(null, "Cliente actualizado exitosamente");
                         dispose(); // Cierra la ventana actual
                         GestionClientes ventanaGestionClientes = new GestionClientes(gestionClientes.adminWindow);
-                        ventanaGestionClientes.setVisible(true); // Abre la ventana de GestionClientes
+                        ventanaGestionClientes.setVisible(true);
                     }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
@@ -77,21 +77,21 @@ public class EditarCliente extends JFrame {
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.setBackground(new Color(255, 69, 58)); // Rojo claro
-        btnCancelar.setForeground(Color.WHITE); // Texto blanco
+        btnCancelar.setForeground(Color.WHITE);
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
+                dispose();
                 GestionClientes ventanaGestionClientes = new GestionClientes(gestionClientes.adminWindow);
-                ventanaGestionClientes.setVisible(true); // Abre la ventana de GestionClientes
+                ventanaGestionClientes.setVisible(true);
             }
         });
         add(btnCancelar);
 
         cargarDatosCliente();
 
-        setSize(350, 200); // Ajusta el tamaño de la ventana
+        setSize(350, 200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     private void cargarDatosCliente() {

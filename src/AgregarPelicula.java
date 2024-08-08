@@ -14,7 +14,7 @@ public class AgregarPelicula extends JFrame {
 
     public AgregarPelicula(AdminWindow adminWindow) {
         super("Agregar Película");
-        this.adminWindow = adminWindow; // Guardar la referencia
+        this.adminWindow = adminWindow;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // Espaciado
@@ -84,7 +84,7 @@ public class AgregarPelicula extends JFrame {
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setBackground(new Color(34, 139, 34)); // Color verde oscuro
-        btnGuardar.setForeground(Color.WHITE); // Color blanco para el texto
+        btnGuardar.setForeground(Color.WHITE);
         btnGuardar.setFont(new Font("Arial", Font.BOLD, 14));
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -103,7 +103,7 @@ public class AgregarPelicula extends JFrame {
                         pstmt.setString(4, clasificacion);
                         pstmt.executeUpdate();
                         JOptionPane.showMessageDialog(null, "Película agregada exitosamente");
-                        dispose(); // Cierra la ventana actual
+                        dispose();
 
                         // Regresa a AdminWindow
                         AdminWindow ventanaAdmin = new AdminWindow();
@@ -123,9 +123,9 @@ public class AgregarPelicula extends JFrame {
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
+                dispose();
                 AdminWindow ventanaAdmin = new AdminWindow();
-                ventanaAdmin.setVisible(true); // Abre la ventana de AdminWindow
+                ventanaAdmin.setVisible(true);
             }
         });
         panelBotones.add(btnCancelar);
@@ -135,8 +135,8 @@ public class AgregarPelicula extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         add(panelBotones, gbc);
 
-        setSize(400, 400); // Ajusta el tamaño de la ventana
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 }

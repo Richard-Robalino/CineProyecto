@@ -92,20 +92,20 @@ public class AgregarCliente extends JFrame {
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
-                gestionClientes.setVisible(true); // Abre la ventana de GestionClientes
+                dispose();
+                gestionClientes.setVisible(true);
             }
         });
         add(btnCancelar, gbc);
 
-        setSize(400, 400); // Ajusta el tamaño de la ventana
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // Suponiendo que tienes una instancia de GestionClientes llamada gestionClientes
+
             GestionClientes gestionClientes = new GestionClientes(null);
             new AgregarCliente(gestionClientes).setVisible(true);
         });

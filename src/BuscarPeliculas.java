@@ -108,7 +108,7 @@ public class BuscarPeliculas extends JFrame {
     }
 
     private void volverAlMenuCliente() {
-        ClientWindow ventanaCliente = new ClientWindow(1); // Reemplaza 1 con el ID de usuario correspondiente
+        ClientWindow ventanaCliente = new ClientWindow(1);
         ventanaCliente.setVisible(true);
         dispose();
     }

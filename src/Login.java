@@ -84,7 +84,7 @@ public class Login extends JFrame {
                         ResultSet rs = pstmt.executeQuery();
 
                         if (rs.next()) {
-                            usuarioId = rs.getInt("id"); // Obtener el ID del usuario
+                            usuarioId = rs.getInt("id");
                             JOptionPane.showMessageDialog(null, "Login exitoso como " + rolSeleccionado);
 
                             if (rolSeleccionado.equals("ADMINISTRADOR")) {

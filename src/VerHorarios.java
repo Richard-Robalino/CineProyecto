@@ -42,7 +42,7 @@ public class VerHorarios extends JFrame {
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCancelar.setBackground(new Color(255, 69, 0)); // Color rojo oscuro
-        btnCancelar.setForeground(Color.WHITE); // Texto blanco
+        btnCancelar.setForeground(Color.WHITE);
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 volverAlMenuCliente();
@@ -102,7 +102,7 @@ public class VerHorarios extends JFrame {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM horarios WHERE pelicula_id = " + peliculaId)) {
 
-            modelo.setRowCount(0); // Limpiar datos anteriores
+            modelo.setRowCount(0);
             while (rs.next()) {
                 Object[] fila = new Object[4];
                 fila[0] = rs.getDate("fecha");

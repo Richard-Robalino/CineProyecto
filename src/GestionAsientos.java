@@ -99,9 +99,7 @@ public class GestionAsientos extends JFrame {
         }
     }
 
-    private void agregarAsiento() {
-        // Implementar lógica para agregar asiento
-    }
+
 
     private void eliminarAsiento() {
         int selectedRow = tablaAsientos.getSelectedRow();

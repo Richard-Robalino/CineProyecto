@@ -71,7 +71,7 @@ public class AgregarAsiento extends JFrame {
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Cierra la ventana actual
+                dispose();
                 if (gestionAsientos != null) {
                     gestionAsientos.setVisible(true); // Muestra la ventana de GestionAsientos
                 }
