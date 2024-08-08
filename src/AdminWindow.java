@@ -7,6 +7,7 @@ public class AdminWindow extends JFrame {
     private JButton btnGestionarHorarios;
     private JButton btnVerEstadisticas;
     private JButton btnGestionarClientes;
+    private JButton btnGestionarAsientos;
 
     public AdminWindow() {
         super("Panel de Administrador");
@@ -69,6 +70,17 @@ public class AdminWindow extends JFrame {
         });
         gbc.gridy = 4;
         add(btnGestionarClientes, gbc);
+
+        btnGestionarAsientos = createButton("Gestionar Asientos", "gestionar_asientos.png");
+        btnGestionarAsientos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GestionAsientos ventanaGestionAsientos = new GestionAsientos(AdminWindow.this);
+                ventanaGestionAsientos.setVisible(true);
+                dispose();
+            }
+        });
+        gbc.gridy = 5;
+        add(btnGestionarAsientos, gbc);
 
         setSize(400, 500); // Ajusta el tamaño de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
