@@ -10,9 +10,12 @@ public class GestionAsientos extends JFrame {
     private JButton btnActualizarAsiento;
     private JTable tablaAsientos;
     private DefaultTableModel modeloTabla;
+    private JButton btnCancelar;
+    AdminWindow adminWindow;
 
-    public GestionAsientos(JFrame parent) {
+    public GestionAsientos(AdminWindow adminWindow) {
         super("Gestionar Asientos");
+        this.adminWindow = adminWindow;
         setLayout(new BorderLayout());
 
         modeloTabla = new DefaultTableModel(new String[]{"ID", "Sala", "Fila", "Número", "Disponible"}, 0);
@@ -57,14 +60,21 @@ public class GestionAsientos extends JFrame {
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        JButton btnRegresar = new JButton("Regresar");
-        btnRegresar.addActionListener(new ActionListener() {
+        btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBackground(Color.GRAY);
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setFocusPainted(false);
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                parent.setVisible(true);
-                dispose();
+                dispose(); // Cierra la ventana actual
+                if (adminWindow != null) {
+                    adminWindow.setVisible(true); // Asegura que adminWindow se haga visible
+                }
             }
         });
-        add(btnRegresar, BorderLayout.NORTH);
+        panelBotones.add(btnCancelar);
+
 
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

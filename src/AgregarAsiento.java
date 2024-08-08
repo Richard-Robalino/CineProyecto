@@ -76,7 +76,7 @@ public class AgregarAsiento extends JFrame {
         gbc.gridy = 5;
         add(btnCancelar, gbc);
 
-        setSize(300, 250);
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
