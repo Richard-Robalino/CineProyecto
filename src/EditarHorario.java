@@ -65,7 +65,7 @@ public class EditarHorario extends JFrame {
                 String hora = txtHora.getText();
                 int sala = Integer.parseInt(txtSala.getText());
 
-                try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
+                try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
                     String query = "UPDATE horarios SET pelicula_id=?, fecha=?, hora=?, sala=? WHERE id=?";
                     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                         pstmt.setInt(1, peliculaId);
@@ -109,7 +109,7 @@ public class EditarHorario extends JFrame {
     }
 
     private void cargarDatosHorario() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             String query = "SELECT * FROM horarios WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setInt(1, horarioId);
