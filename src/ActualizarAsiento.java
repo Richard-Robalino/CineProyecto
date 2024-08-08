@@ -86,7 +86,7 @@ public class ActualizarAsiento extends JFrame {
     }
 
     private void cargarDatosAsiento() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "123456");
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement pstmt = con.prepareStatement("SELECT * FROM asientos WHERE id = ?")) {
             pstmt.setInt(1, asientoId);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -124,7 +124,7 @@ public class ActualizarAsiento extends JFrame {
             return;
         }
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "123456");
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement pstmt = con.prepareStatement("UPDATE asientos SET sala_id = ?, fila = ?, numero = ?, disponible = ? WHERE id = ?")) {
             pstmt.setInt(1, salaId);
             pstmt.setString(2, fila);
