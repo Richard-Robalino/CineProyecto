@@ -63,7 +63,7 @@ public class AgregarCliente extends JFrame {
                 String password = new String(txtPassword.getPassword());
                 String rol = (String) comboRol.getSelectedItem();
 
-                try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
+                try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
                     String query = "INSERT INTO usuarios (username, password, rol) VALUES (?, ?, ?)";
                     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                         pstmt.setString(1, username);
