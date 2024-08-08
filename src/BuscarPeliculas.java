@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase BuscarPeliculas representa una ventana para buscar películas en la base de datos.
+ * Permite al usuario ingresar un título de película y muestra los resultados en una tabla.
+ */
 public class BuscarPeliculas extends JFrame {
     private JTextField txtBuscar;
     private JButton btnBuscar;
@@ -12,6 +16,11 @@ public class BuscarPeliculas extends JFrame {
     private JTable tblPeliculas;
     private DefaultTableModel modelo;
 
+    /**
+     * Constructor de la clase BuscarPeliculas.
+     * Configura la interfaz de usuario, incluyendo los campos de búsqueda,
+     * botones y la tabla para mostrar los resultados de la búsqueda.
+     */
     public BuscarPeliculas() {
         super("Buscar Películas");
         setLayout(new BorderLayout());
@@ -78,6 +87,10 @@ public class BuscarPeliculas extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método que realiza la búsqueda de películas en la base de datos.
+     * Filtra las películas por título y muestra los resultados en la tabla.
+     */
     private void buscarPeliculas() {
         String buscar = txtBuscar.getText();
         if (buscar.isEmpty()) {
@@ -90,7 +103,7 @@ public class BuscarPeliculas extends JFrame {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM peliculas WHERE titulo LIKE '%" + buscar + "%'");
 
-            modelo.setRowCount(0);
+            modelo.setRowCount(0); // Limpiar tabla
             while (rs.next()) {
                 Object[] fila = new Object[3];
                 fila[0] = rs.getString("titulo");
@@ -107,12 +120,20 @@ public class BuscarPeliculas extends JFrame {
         }
     }
 
+    /**
+     * Método que cancela la operación de búsqueda y regresa al menú del cliente.
+     */
     private void volverAlMenuCliente() {
         ClientWindow ventanaCliente = new ClientWindow(1);
         ventanaCliente.setVisible(true);
         dispose();
     }
 
+    /**
+     * Método principal que lanza la aplicación.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             BuscarPeliculas ventanaBuscarPeliculas = new BuscarPeliculas();

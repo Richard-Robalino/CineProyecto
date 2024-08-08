@@ -3,14 +3,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Clase ClientWindow representa el panel principal del cliente.
+ * Permite al usuario realizar diferentes acciones como buscar películas,
+ * ver horarios, reservar asientos y ver el historial de reservas.
+ */
 public class ClientWindow extends JFrame {
     private JButton btnBuscarPeliculas;
     private JButton btnVerHorarios;
     private JButton btnReservarAsiento;
     private JButton btnVerHistorial;
     private int usuarioId;
-    public ClientWindow(int usuarioId) {
 
+    /**
+     * Constructor de la clase ClientWindow.
+     * Inicializa la interfaz de usuario con botones para las diferentes funcionalidades.
+     *
+     * @param usuarioId El ID del usuario que accede a la ventana del cliente.
+     */
+    public ClientWindow(int usuarioId) {
         super("Panel de Cliente");
         this.usuarioId = usuarioId;
         setLayout(new GridBagLayout());
@@ -54,7 +65,6 @@ public class ClientWindow extends JFrame {
         btnReservarAsiento = createButton("Reservar Asiento");
         btnReservarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 ReservarAsiento ventanaReservarAsiento = new ReservarAsiento(usuarioId);
                 ventanaReservarAsiento.setVisible(true);
                 dispose();
@@ -83,6 +93,12 @@ public class ClientWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método auxiliar para crear botones con un estilo uniforme.
+     *
+     * @param text El texto que aparecerá en el botón.
+     * @return Un JButton configurado con el texto proporcionado.
+     */
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 16));

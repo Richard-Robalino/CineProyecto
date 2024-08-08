@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase ActualizarAsiento es una ventana de JFrame que permite actualizar la información
+ * de un asiento en la base de datos, como el ID de sala, fila, número y disponibilidad.
+ */
 public class ActualizarAsiento extends JFrame {
     private JTextField txtSalaId;
     private JTextField txtFila;
@@ -12,6 +16,12 @@ public class ActualizarAsiento extends JFrame {
     private JButton btnCancelar;
     private int asientoId;
 
+    /**
+     * Constructor de la clase ActualizarAsiento.
+     *
+     * @param parent    El JFrame padre de la ventana actual.
+     * @param asientoId El ID del asiento que se va a actualizar.
+     */
     public ActualizarAsiento(JFrame parent, int asientoId) {
         super("Actualizar Asiento");
         this.asientoId = asientoId;
@@ -20,6 +30,7 @@ public class ActualizarAsiento extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        // Configuración de los componentes visuales y su disposición
         JLabel lblSalaId = new JLabel("ID de Sala:");
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -56,6 +67,7 @@ public class ActualizarAsiento extends JFrame {
         gbc.gridx = 1;
         add(chkDisponible, gbc);
 
+        // Botón para actualizar los datos del asiento
         btnActualizar = new JButton("Actualizar");
         btnActualizar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -68,6 +80,7 @@ public class ActualizarAsiento extends JFrame {
         gbc.fill = GridBagConstraints.NONE;
         add(btnActualizar, gbc);
 
+        // Botón para cancelar la operación y cerrar la ventana
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -78,6 +91,7 @@ public class ActualizarAsiento extends JFrame {
         gbc.gridy = 5;
         add(btnCancelar, gbc);
 
+        // Cargar datos del asiento seleccionado
         cargarDatosAsiento();
 
         setSize(400, 400);
@@ -85,6 +99,10 @@ public class ActualizarAsiento extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método para cargar los datos del asiento desde la base de datos.
+     * Llena los campos del formulario con la información del asiento seleccionado.
+     */
     private void cargarDatosAsiento() {
         try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement pstmt = con.prepareStatement("SELECT * FROM asientos WHERE id = ?")) {
@@ -102,12 +120,17 @@ public class ActualizarAsiento extends JFrame {
         }
     }
 
+    /**
+     * Método para actualizar los datos del asiento en la base de datos.
+     * Verifica que todos los campos estén llenos y realiza la actualización.
+     */
     private void actualizarAsiento() {
         String salaIdStr = txtSalaId.getText();
         String fila = txtFila.getText();
         String numeroStr = txtNumero.getText();
         boolean disponible = chkDisponible.isSelected();
 
+        // Validación de campos vacíos
         if (salaIdStr.isEmpty() || fila.isEmpty() || numeroStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos deben ser llenados.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -116,6 +139,7 @@ public class ActualizarAsiento extends JFrame {
         int salaId;
         int numero;
 
+        // Validación de tipos de datos
         try {
             salaId = Integer.parseInt(salaIdStr);
             numero = Integer.parseInt(numeroStr);
@@ -124,6 +148,7 @@ public class ActualizarAsiento extends JFrame {
             return;
         }
 
+        // Actualización de los datos del asiento en la base de datos
         try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement pstmt = con.prepareStatement("UPDATE asientos SET sala_id = ?, fila = ?, numero = ?, disponible = ? WHERE id = ?")) {
             pstmt.setInt(1, salaId);
@@ -140,6 +165,11 @@ public class ActualizarAsiento extends JFrame {
         }
     }
 
+    /**
+     * Método principal que lanza la aplicación.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             // Aquí debes pasar el ID del asiento a actualizar

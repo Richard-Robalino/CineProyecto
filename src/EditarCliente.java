@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase EditarCliente permite editar la información de un cliente existente en el sistema.
+ * Proporciona campos para editar el nombre de usuario, la contraseña y el rol del cliente.
+ */
 public class EditarCliente extends JFrame {
     private JTextField txtUsername;
     private JPasswordField txtPassword;
@@ -12,6 +16,13 @@ public class EditarCliente extends JFrame {
     private GestionClientes gestionClientes;
     private int clienteId;
 
+    /**
+     * Constructor de la clase EditarCliente.
+     * Inicializa la interfaz de usuario con los campos necesarios para editar un cliente.
+     *
+     * @param gestionClientes La instancia de la ventana GestionClientes desde la cual se invoca esta ventana.
+     * @param clienteId El ID del cliente que se va a editar.
+     */
     public EditarCliente(GestionClientes gestionClientes, int clienteId) {
         super("Editar Cliente");
         this.gestionClientes = gestionClientes;
@@ -94,6 +105,10 @@ public class EditarCliente extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método cargarDatosCliente.
+     * Carga los datos del cliente en los campos de texto para su edición.
+     */
     private void cargarDatosCliente() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             String query = "SELECT * FROM usuarios WHERE id=?";

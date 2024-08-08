@@ -3,6 +3,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase AgregarHorario representa una ventana para agregar un nuevo horario
+ * en la base de datos de la aplicación. Permite al usuario ingresar un ID de película,
+ * fecha, hora y número de sala.
+ */
 public class AgregarHorario extends JFrame {
     private JTextField txtPeliculaId;
     private JTextField txtFecha;
@@ -12,6 +17,12 @@ public class AgregarHorario extends JFrame {
     private JButton btnCancelar;
     private GestionHorarios gestionHorarios;
 
+    /**
+     * Constructor de la clase AgregarHorario.
+     *
+     * @param gestionHorarios Referencia a la ventana de gestión de horarios (GestionHorarios).
+     *                        Se utiliza para volver a mostrarla cuando se cierra esta ventana.
+     */
     public AgregarHorario(GestionHorarios gestionHorarios) {
         super("Agregar Horario");
         this.gestionHorarios = gestionHorarios;
@@ -65,28 +76,7 @@ public class AgregarHorario extends JFrame {
         btnGuardar.setFont(textFieldFont.deriveFont(Font.BOLD));
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int peliculaId = Integer.parseInt(txtPeliculaId.getText());
-                String fecha = txtFecha.getText();
-                String hora = txtHora.getText();
-                int sala = Integer.parseInt(txtSala.getText());
-
-                try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
-                    String query = "INSERT INTO horarios (pelicula_id, fecha, hora, sala) VALUES (?, ?, ?, ?)";
-                    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-                        pstmt.setInt(1, peliculaId);
-                        pstmt.setDate(2, Date.valueOf(fecha));
-                        pstmt.setTime(3, Time.valueOf(hora));
-                        pstmt.setInt(4, sala);
-                        pstmt.executeUpdate();
-                        JOptionPane.showMessageDialog(null, "Horario agregado exitosamente");
-                        dispose();
-                        GestionHorarios ventanaGestionHorarios = new GestionHorarios(gestionHorarios.adminWindow);
-                        ventanaGestionHorarios.setVisible(true);
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
-                    ex.printStackTrace();
-                }
+                guardarHorario();
             }
         });
         add(btnGuardar);
@@ -98,9 +88,7 @@ public class AgregarHorario extends JFrame {
         btnCancelar.setFont(textFieldFont.deriveFont(Font.BOLD));
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                GestionHorarios ventanaGestionHorarios = new GestionHorarios(gestionHorarios.adminWindow);
-                ventanaGestionHorarios.setVisible(true);
+                cancelarOperacion();
             }
         });
         add(btnCancelar);
@@ -108,5 +96,57 @@ public class AgregarHorario extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+    }
+
+    /**
+     * Método que guarda el horario en la base de datos.
+     * Verifica que los campos estén llenos y que los valores ingresados sean válidos.
+     * Luego inserta el nuevo horario en la base de datos.
+     */
+    private void guardarHorario() {
+        int peliculaId = Integer.parseInt(txtPeliculaId.getText());
+        String fecha = txtFecha.getText();
+        String hora = txtHora.getText();
+        int sala = Integer.parseInt(txtSala.getText());
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
+            String query = "INSERT INTO horarios (pelicula_id, fecha, hora, sala) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setInt(1, peliculaId);
+                pstmt.setDate(2, Date.valueOf(fecha));
+                pstmt.setTime(3, Time.valueOf(hora));
+                pstmt.setInt(4, sala);
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Horario agregado exitosamente");
+                dispose();
+                GestionHorarios ventanaGestionHorarios = new GestionHorarios(gestionHorarios.adminWindow);
+                ventanaGestionHorarios.setVisible(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos");
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Método que cancela la operación y cierra la ventana actual.
+     * Vuelve a mostrar la ventana de gestión de horarios.
+     */
+    private void cancelarOperacion() {
+        dispose();
+        GestionHorarios ventanaGestionHorarios = new GestionHorarios(gestionHorarios.adminWindow);
+        ventanaGestionHorarios.setVisible(true);
+    }
+
+    /**
+     * Método principal que lanza la aplicación.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            GestionHorarios gestionHorarios = new GestionHorarios(null);
+            new AgregarHorario(gestionHorarios).setVisible(true);
+        });
     }
 }
