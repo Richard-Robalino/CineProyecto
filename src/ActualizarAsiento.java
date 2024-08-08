@@ -80,7 +80,7 @@ public class ActualizarAsiento extends JFrame {
 
         cargarDatosAsiento();
 
-        setSize(300, 250);
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
