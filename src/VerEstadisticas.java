@@ -48,7 +48,7 @@ public class VerEstadisticas extends JFrame {
     }
 
     private void actualizarEstadisticas() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             // Ejemplo de consulta para mostrar estadísticas de ocupación
             String query = "SELECT p.titulo, " +
                     "       COUNT(r.id) AS reservas, " +

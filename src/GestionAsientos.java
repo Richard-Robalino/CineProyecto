@@ -82,7 +82,7 @@ public class GestionAsientos extends JFrame {
     }
 
     private void cargarAsientos() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "123456");
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM asientos")) {
             while (rs.next()) {
@@ -107,7 +107,7 @@ public class GestionAsientos extends JFrame {
         int selectedRow = tablaAsientos.getSelectedRow();
         if (selectedRow != -1) {
             int asientoId = (int) modeloTabla.getValueAt(selectedRow, 0);
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "123456");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
                  PreparedStatement pstmt = con.prepareStatement("DELETE FROM asientos WHERE id = ?")) {
                 pstmt.setInt(1, asientoId);
                 pstmt.executeUpdate();
@@ -125,7 +125,7 @@ public class GestionAsientos extends JFrame {
             String fila = (String) modeloTabla.getValueAt(selectedRow, 2);
             int numero = (int) modeloTabla.getValueAt(selectedRow, 3);
             boolean disponible = (boolean) modeloTabla.getValueAt(selectedRow, 4);
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "123456");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
                  PreparedStatement pstmt = con.prepareStatement("UPDATE asientos SET fila = ?, numero = ?, disponible = ? WHERE id = ?")) {
                 pstmt.setString(1, fila);
                 pstmt.setInt(2, numero);

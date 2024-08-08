@@ -102,7 +102,7 @@ public class ReservarAsiento extends JFrame {
     }
 
     private void cargarPeliculas() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT id, titulo FROM peliculas")) {
 
@@ -125,7 +125,7 @@ public class ReservarAsiento extends JFrame {
     }
 
     private void cargarHorarios() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement stmt = conn.prepareStatement("SELECT id, fecha, hora FROM horarios WHERE pelicula_id = ?")) {
 
             stmt.setInt(1, peliculaId);
@@ -146,7 +146,7 @@ public class ReservarAsiento extends JFrame {
         String seleccion = (String) cmbHorarios.getSelectedItem();
         if (seleccion != null && !seleccion.equals("Seleccione un horario")) {
             horarioId = Integer.parseInt(seleccion.split("\\(")[1].replace(")", ""));
-            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
                  PreparedStatement stmt = conn.prepareStatement("SELECT a.fila, a.numero, a.disponible FROM asientos a JOIN horarios h ON a.sala_id = h.sala WHERE h.id = ?")) {
 
                 stmt.setInt(1, horarioId);
@@ -188,7 +188,7 @@ public class ReservarAsiento extends JFrame {
         String fecha = seleccionHorario[0]; // Formato de fecha: "YYYY-MM-DD"
         String hora = seleccionHorario[1];  // Formato de hora: "HH:MM:SS"
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement stmt = conn.prepareStatement("INSERT INTO reservas (cliente_id, horario_id, asiento_id) VALUES (?, ?, ?)")) {
 
             stmt.setInt(1, this.usuarioId); // Utilizar el ID del usuario
@@ -215,7 +215,7 @@ public class ReservarAsiento extends JFrame {
     private int obtenerAsientoId(String fila, int numero) {
         int asientoId = -1;
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement stmt = conn.prepareStatement("SELECT id FROM asientos WHERE fila = ? AND numero = ? AND sala_id = (SELECT sala FROM horarios WHERE id = ?)")) {
 
             stmt.setString(1, fila);
@@ -235,7 +235,7 @@ public class ReservarAsiento extends JFrame {
     }
 
     private void marcarAsientoNoDisponible(int asientoId) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cine_reservas", "root", "123456");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement stmt = conn.prepareStatement("UPDATE asientos SET disponible = FALSE WHERE id = ?")) {
             stmt.setInt(1, asientoId);
             stmt.executeUpdate();
