@@ -5,6 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
+/**
+ * Clase ReservarAsiento proporciona una interfaz para que los clientes puedan reservar asientos en una película
+ * en un horario específico. Permite seleccionar una película, un horario, visualizar los asientos disponibles
+ * y realizar una reserva.
+ */
 public class ReservarAsiento extends JFrame {
     private JComboBox<String> cmbPeliculas;
     private JComboBox<String> cmbHorarios;
@@ -17,9 +22,15 @@ public class ReservarAsiento extends JFrame {
     private JButton btnCancelar;
     private JButton btnVolverMenu;
     private int usuarioId;
+
+    /**
+     * Constructor de la clase ReservarAsiento.
+     * Inicializa la interfaz de usuario para la reserva de asientos.
+     *
+     * @param usuarioId ID del usuario que realiza la reserva.
+     */
     public ReservarAsiento(int usuarioId) {
         this.usuarioId = usuarioId;
-        //super("Reservar Asiento");
         setLayout(new BorderLayout());
 
         // Establecer fondo de color
@@ -30,6 +41,7 @@ public class ReservarAsiento extends JFrame {
         pnlSeleccion.setLayout(new GridLayout(2, 1));
         pnlSeleccion.setBackground(new Color(200, 220, 240));
 
+        // Panel de selección de película
         JPanel pnlPelicula = new JPanel();
         pnlPelicula.setLayout(new FlowLayout());
         pnlPelicula.setBackground(new Color(200, 220, 240));
@@ -42,6 +54,7 @@ public class ReservarAsiento extends JFrame {
         pnlPelicula.add(cmbPeliculas);
         pnlSeleccion.add(pnlPelicula);
 
+        // Panel de selección de horario
         JPanel pnlHorario = new JPanel();
         pnlHorario.setLayout(new FlowLayout());
         pnlHorario.setBackground(new Color(200, 220, 240));
@@ -101,6 +114,9 @@ public class ReservarAsiento extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Carga la lista de películas desde la base de datos y la añade al JComboBox cmbPeliculas.
+     */
     private void cargarPeliculas() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              Statement stmt = conn.createStatement();
@@ -116,6 +132,10 @@ public class ReservarAsiento extends JFrame {
         }
     }
 
+    /**
+     * Maneja la selección de una película en el JComboBox cmbPeliculas.
+     * Carga los horarios disponibles para la película seleccionada.
+     */
     private void seleccionarPelicula() {
         String seleccion = (String) cmbPeliculas.getSelectedItem();
         if (seleccion != null && !seleccion.equals("Seleccione una película")) {
@@ -124,6 +144,10 @@ public class ReservarAsiento extends JFrame {
         }
     }
 
+    /**
+     * Carga la lista de horarios disponibles para la película seleccionada desde la base de datos
+     * y la añade al JComboBox cmbHorarios.
+     */
     private void cargarHorarios() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement stmt = conn.prepareStatement("SELECT id, fecha, hora FROM horarios WHERE pelicula_id = ?")) {
@@ -142,6 +166,9 @@ public class ReservarAsiento extends JFrame {
         }
     }
 
+    /**
+     * Muestra la sala con los asientos disponibles para el horario seleccionado.
+     */
     private void verSala() {
         String seleccion = (String) cmbHorarios.getSelectedItem();
         if (seleccion != null && !seleccion.equals("Seleccione un horario")) {
@@ -169,6 +196,9 @@ public class ReservarAsiento extends JFrame {
         }
     }
 
+    /**
+     * Reserva el asiento seleccionado y actualiza la disponibilidad en la base de datos.
+     */
     private void reservarAsiento() {
         int fila = tblAsientos.getSelectedRow();
 
@@ -211,7 +241,13 @@ public class ReservarAsiento extends JFrame {
         }
     }
 
-
+    /**
+     * Obtiene el ID del asiento basado en la fila y el número del asiento.
+     *
+     * @param fila Fila del asiento.
+     * @param numero Número del asiento.
+     * @return ID del asiento.
+     */
     private int obtenerAsientoId(String fila, int numero) {
         int asientoId = -1;
 
@@ -234,6 +270,11 @@ public class ReservarAsiento extends JFrame {
         return asientoId;
     }
 
+    /**
+     * Marca el asiento como no disponible en la base de datos.
+     *
+     * @param asientoId ID del asiento a marcar como no disponible.
+     */
     private void marcarAsientoNoDisponible(int asientoId) {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              PreparedStatement stmt = conn.prepareStatement("UPDATE asientos SET disponible = FALSE WHERE id = ?")) {
@@ -243,12 +284,18 @@ public class ReservarAsiento extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al actualizar disponibilidad del asiento: " + ex.getMessage());
         }
     }
+
+    /**
+     * Regresa al menú del cliente.
+     * Crea una nueva instancia de ClientWindow y la muestra, y luego cierra la ventana actual.
+     */
     private void volverAlMenuCliente() {
         ClientWindow ventanaCliente = new ClientWindow(1); // Reemplaza 1 con el ID de usuario correspondiente
         ventanaCliente.setVisible(true);
         dispose();
     }
-/*
+
+    /*
     private void volverAlMenuPrincipal() {
         // Crear una nueva instancia de ClientWindow y mostrarla
         new ClientWindow(int usuarioId).setVisible(true);
@@ -258,5 +305,6 @@ public class ReservarAsiento extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new ReservarAsiento().setVisible(true));
-    }*/
+    }
+    */
 }

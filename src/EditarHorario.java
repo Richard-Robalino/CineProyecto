@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase EditarHorario permite editar la información de un horario de proyección existente en el sistema.
+ * Proporciona campos para editar la ID de la película, la fecha, la hora y la sala.
+ */
 public class EditarHorario extends JFrame {
     private JTextField txtPeliculaId;
     private JTextField txtFecha;
@@ -13,6 +17,13 @@ public class EditarHorario extends JFrame {
     private GestionHorarios gestionHorarios;
     private int horarioId;
 
+    /**
+     * Constructor de la clase EditarHorario.
+     * Inicializa la interfaz de usuario con los campos necesarios para editar un horario de proyección.
+     *
+     * @param gestionHorarios La instancia de la ventana GestionHorarios desde la cual se invoca esta ventana.
+     * @param horarioId El ID del horario que se va a editar.
+     */
     public EditarHorario(GestionHorarios gestionHorarios, int horarioId) {
         super("Editar Horario");
         this.gestionHorarios = gestionHorarios;
@@ -108,6 +119,10 @@ public class EditarHorario extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método cargarDatosHorario.
+     * Carga los datos del horario en los campos de texto para su edición.
+     */
     private void cargarDatosHorario() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             String query = "SELECT * FROM horarios WHERE id=?";

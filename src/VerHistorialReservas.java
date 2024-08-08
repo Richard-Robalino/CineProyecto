@@ -4,12 +4,23 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * La clase VerHistorialReservas muestra una ventana con una tabla que presenta el historial de reservas
+ * de un usuario específico, incluyendo detalles sobre la fecha de reserva, fecha, hora, película, sala
+ * y asiento reservado.
+ */
 public class VerHistorialReservas extends JFrame {
     private JTable tblHistorial;
     private DefaultTableModel modelo;
     private JButton btnCerrar;
     private JTextField txtNombreUsuario;
 
+    /**
+     * Constructor de la clase VerHistorialReservas.
+     * Inicializa la interfaz para mostrar el historial de reservas del usuario y configura el botón de cerrar.
+     *
+     * @param nombreUsuario El nombre de usuario cuyo historial de reservas se mostrará en la ventana.
+     */
     public VerHistorialReservas(String nombreUsuario) {
         super("Historial de Reservas");
         setLayout(new BorderLayout());
@@ -82,23 +93,33 @@ public class VerHistorialReservas extends JFrame {
         cargarHistorialReservas(nombreUsuario);
     }
 
+    /**
+     * Carga el historial de reservas del usuario desde la base de datos y actualiza la tabla.
+     *
+     * @param nombreUsuario El nombre de usuario cuyo historial se cargará.
+     */
     private void cargarHistorialReservas(String nombreUsuario) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
-             PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT r.fecha_reserva, h.fecha, h.hora, p.titulo, h.sala, a.fila, a.numero " +
-                             "FROM reservas r " +
-                             "JOIN horarios h ON r.horario_id = h.id " +
-                             "JOIN peliculas p ON h.pelicula_id = p.id " +
-                             "JOIN asientos a ON r.asiento_id = a.id " +
-                             "JOIN usuarios u ON r.cliente_id = u.id " +
-                             "WHERE u.username = ? " +
-                             "ORDER BY r.fecha_reserva DESC")) {
+        String url = "jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k";
+        String usuario = "ubizbip0ntk5uopb";
+        String contrasena = "vFULnkL51YQfK531npMk";
+
+        String query = "SELECT r.fecha_reserva, h.fecha, h.hora, p.titulo, h.sala, a.fila, a.numero " +
+                "FROM reservas r " +
+                "JOIN horarios h ON r.horario_id = h.id " +
+                "JOIN peliculas p ON h.pelicula_id = p.id " +
+                "JOIN asientos a ON r.asiento_id = a.id " +
+                "JOIN usuarios u ON r.cliente_id = u.id " +
+                "WHERE u.username = ? " +
+                "ORDER BY r.fecha_reserva DESC";
+
+        try (Connection conn = DriverManager.getConnection(url, usuario, contrasena);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nombreUsuario);
             ResultSet rs = stmt.executeQuery();
 
             modelo.setRowCount(0);
             while (rs.next()) {
-                Object[] fila = new Object[7];
+                Object[] fila = new Object[6];
                 fila[0] = rs.getString("fecha_reserva");
                 fila[1] = rs.getString("fecha");
                 fila[2] = rs.getString("hora");
@@ -113,6 +134,12 @@ public class VerHistorialReservas extends JFrame {
         }
     }
 
+    /**
+     * Método principal para ejecutar la aplicación.
+     * Solicita el nombre del usuario y crea una instancia de VerHistorialReservas.
+     *
+     * @param args Argumentos de línea de comandos (no se utilizan en este caso).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             String nombreUsuario = JOptionPane.showInputDialog("Ingrese el nombre del usuario:");

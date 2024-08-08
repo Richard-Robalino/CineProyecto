@@ -4,14 +4,24 @@ import java.awt.event.*;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Clase GestionClientes proporciona una interfaz para gestionar los clientes en el sistema.
+ * Permite agregar, editar, eliminar clientes y muestra una tabla con la información de los clientes existentes.
+ */
 public class GestionClientes extends JFrame {
     private JTable tableClientes;
     private JButton btnAgregarCliente;
     private JButton btnEditarCliente;
     private JButton btnEliminarCliente;
     private JButton btnCancelar;
-    AdminWindow adminWindow; // Referencia al AdminWindow
+    private AdminWindow adminWindow; // Referencia al AdminWindow
 
+    /**
+     * Constructor de la clase GestionClientes.
+     * Inicializa la interfaz de usuario para la gestión de clientes.
+     *
+     * @param adminWindow La instancia de la ventana AdminWindow desde la cual se invoca esta ventana.
+     */
     public GestionClientes(AdminWindow adminWindow) {
         super("Gestionar Clientes");
         this.adminWindow = adminWindow; // Guardar la referencia
@@ -30,6 +40,7 @@ public class GestionClientes extends JFrame {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Espaciado
 
+        // Botón Agregar Cliente
         btnAgregarCliente = new JButton("Agregar Cliente");
         btnAgregarCliente.setBackground(new Color(0, 123, 255));
         btnAgregarCliente.setForeground(Color.WHITE);
@@ -44,6 +55,7 @@ public class GestionClientes extends JFrame {
         });
         panelBotones.add(btnAgregarCliente);
 
+        // Botón Editar Cliente
         btnEditarCliente = new JButton("Editar Cliente");
         btnEditarCliente.setBackground(new Color(0, 123, 255));
         btnEditarCliente.setForeground(Color.WHITE);
@@ -64,6 +76,7 @@ public class GestionClientes extends JFrame {
         });
         panelBotones.add(btnEditarCliente);
 
+        // Botón Eliminar Cliente
         btnEliminarCliente = new JButton("Eliminar Cliente");
         btnEliminarCliente.setBackground(new Color(220, 53, 69));
         btnEliminarCliente.setForeground(Color.WHITE);
@@ -86,6 +99,7 @@ public class GestionClientes extends JFrame {
         });
         panelBotones.add(btnEliminarCliente);
 
+        // Botón Cancelar
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setBackground(Color.GRAY);
         btnCancelar.setForeground(Color.WHITE);
@@ -106,6 +120,10 @@ public class GestionClientes extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método actualizarTabla.
+     * Actualiza la tabla de clientes con la información obtenida de la base de datos.
+     */
     private void actualizarTabla() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             String query = "SELECT id, username, password, rol FROM usuarios WHERE rol='CLIENTE' OR rol='ADMINISTRADOR'";
@@ -129,6 +147,12 @@ public class GestionClientes extends JFrame {
         }
     }
 
+    /**
+     * Método eliminarCliente.
+     * Elimina un cliente de la base de datos usando el ID proporcionado.
+     *
+     * @param clienteId El ID del cliente a eliminar.
+     */
     private void eliminarCliente(int clienteId) {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             String query = "DELETE FROM usuarios WHERE id=?";
@@ -143,6 +167,12 @@ public class GestionClientes extends JFrame {
         }
     }
 
+    /**
+     * Método main.
+     * Punto de entrada para la aplicación. Crea e inicia una instancia de la ventana AdminWindow.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             AdminWindow ventanaAdmin = new AdminWindow();

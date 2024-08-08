@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase GestionAsientos proporciona una interfaz para gestionar los asientos en el sistema.
+ * Permite agregar, eliminar y actualizar asientos, y muestra una tabla con la información de los asientos existentes.
+ */
 public class GestionAsientos extends JFrame {
     private JButton btnAgregarAsiento;
     private JButton btnEliminarAsiento;
@@ -11,13 +15,20 @@ public class GestionAsientos extends JFrame {
     private JTable tablaAsientos;
     private DefaultTableModel modeloTabla;
     private JButton btnCancelar;
-    AdminWindow adminWindow;
+    private AdminWindow adminWindow;
 
+    /**
+     * Constructor de la clase GestionAsientos.
+     * Inicializa la interfaz de usuario para la gestión de asientos.
+     *
+     * @param adminWindow La instancia de la ventana AdminWindow desde la cual se invoca esta ventana.
+     */
     public GestionAsientos(AdminWindow adminWindow) {
         super("Gestionar Asientos");
         this.adminWindow = adminWindow;
         setLayout(new BorderLayout());
 
+        // Configuración de la tabla y el modelo de datos
         modeloTabla = new DefaultTableModel(new String[]{"ID", "Sala", "Fila", "Número", "Disponible"}, 0);
         tablaAsientos = new JTable(modeloTabla);
         cargarAsientos();
@@ -25,6 +36,7 @@ public class GestionAsientos extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tablaAsientos);
         add(scrollPane, BorderLayout.CENTER);
 
+        // Panel para los botones de acción
         JPanel panelBotones = new JPanel();
         btnAgregarAsiento = new JButton("Agregar Asiento");
         btnAgregarAsiento.addActionListener(new ActionListener() {
@@ -42,6 +54,7 @@ public class GestionAsientos extends JFrame {
             }
         });
         panelBotones.add(btnEliminarAsiento);
+
         btnActualizarAsiento = new JButton("Actualizar Asiento");
         btnActualizarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -57,9 +70,7 @@ public class GestionAsientos extends JFrame {
         });
         panelBotones.add(btnActualizarAsiento);
 
-
-        add(panelBotones, BorderLayout.SOUTH);
-
+        // Botón Cancelar
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setBackground(Color.GRAY);
         btnCancelar.setForeground(Color.WHITE);
@@ -75,12 +86,17 @@ public class GestionAsientos extends JFrame {
         });
         panelBotones.add(btnCancelar);
 
+        add(panelBotones, BorderLayout.SOUTH);
 
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método cargarAsientos.
+     * Carga los datos de los asientos desde la base de datos y los muestra en la tabla.
+     */
     private void cargarAsientos() {
         try (Connection con = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              Statement stmt = con.createStatement();
@@ -99,8 +115,10 @@ public class GestionAsientos extends JFrame {
         }
     }
 
-
-
+    /**
+     * Método eliminarAsiento.
+     * Elimina el asiento seleccionado en la tabla de la base de datos y actualiza la tabla.
+     */
     private void eliminarAsiento() {
         int selectedRow = tablaAsientos.getSelectedRow();
         if (selectedRow != -1) {
@@ -116,6 +134,10 @@ public class GestionAsientos extends JFrame {
         }
     }
 
+    /**
+     * Método actualizarAsiento.
+     * Actualiza el asiento seleccionado en la tabla en la base de datos.
+     */
     private void actualizarAsiento() {
         int selectedRow = tablaAsientos.getSelectedRow();
         if (selectedRow != -1) {
@@ -136,6 +158,12 @@ public class GestionAsientos extends JFrame {
         }
     }
 
+    /**
+     * Método main.
+     * Punto de entrada para la aplicación. Crea e inicia una instancia de la ventana de gestión de asientos.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             GestionAsientos ventanaGestionAsientos = new GestionAsientos(null);

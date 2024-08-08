@@ -3,12 +3,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * Clase Login proporciona una interfaz para el inicio de sesión de usuarios.
+ * Permite a los usuarios ingresar su nombre de usuario, contraseña y rol para autenticar el acceso a la aplicación.
+ */
 public class Login extends JFrame {
     private JTextField txtUsuario;
     private JPasswordField txtContrasena;
     private JComboBox<String> comboRol;
     private JButton btnIniciarSesion;
     private int usuarioId;
+
+    /**
+     * Constructor de la clase Login.
+     * Inicializa la interfaz de usuario para el inicio de sesión.
+     */
     public Login() {
         super("Login");
         setLayout(new GridBagLayout());
@@ -19,6 +28,7 @@ public class Login extends JFrame {
         // Establecer fondo de color
         getContentPane().setBackground(new Color(200, 220, 240));
 
+        // Título
         JLabel lblTitle = new JLabel("Inicio de Sesión", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         lblTitle.setForeground(Color.BLUE);
@@ -30,37 +40,47 @@ public class Login extends JFrame {
         gbc.gridwidth = 1;
         gbc.gridy = 1;
 
+        // Etiqueta Usuario
         JLabel lblUsuario = new JLabel("Usuario:");
         lblUsuario.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 0;
         add(lblUsuario, gbc);
 
+        // Campo de texto Usuario
         txtUsuario = new JTextField(20);
         gbc.gridx = 1;
         add(txtUsuario, gbc);
 
         gbc.gridy = 2;
+
+        // Etiqueta Contraseña
         JLabel lblContrasena = new JLabel("Contraseña:");
         lblContrasena.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 0;
         add(lblContrasena, gbc);
 
+        // Campo de texto Contraseña
         txtContrasena = new JPasswordField(20);
         gbc.gridx = 1;
         add(txtContrasena, gbc);
 
         gbc.gridy = 3;
+
+        // Etiqueta Rol
         JLabel lblRol = new JLabel("Rol:");
         lblRol.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 0;
         add(lblRol, gbc);
 
+        // ComboBox Rol
         String[] roles = {"ADMINISTRADOR", "CLIENTE"};
         comboRol = new JComboBox<>(roles);
         gbc.gridx = 1;
         add(comboRol, gbc);
 
         gbc.gridy = 4;
+
+        // Botón Iniciar Sesión
         btnIniciarSesion = new JButton("Iniciar Sesión");
         btnIniciarSesion.setFont(new Font("Arial", Font.BOLD, 16));
         btnIniciarSesion.setBackground(new Color(70, 130, 180));
@@ -69,6 +89,7 @@ public class Login extends JFrame {
         gbc.gridx = 0;
         add(btnIniciarSesion, gbc);
 
+        // Acción del botón Iniciar Sesión
         btnIniciarSesion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String usuario = txtUsuario.getText();
@@ -87,6 +108,7 @@ public class Login extends JFrame {
                             usuarioId = rs.getInt("id");
                             JOptionPane.showMessageDialog(null, "Login exitoso como " + rolSeleccionado);
 
+                            // Redirigir a la ventana correspondiente
                             if (rolSeleccionado.equals("ADMINISTRADOR")) {
                                 AdminWindow ventanaAdmin = new AdminWindow();
                                 ventanaAdmin.setVisible(true);
@@ -112,6 +134,12 @@ public class Login extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método main.
+     * Punto de entrada para la aplicación. Crea e inicia una instancia de la ventana Login.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Login ventanaLogin = new Login();

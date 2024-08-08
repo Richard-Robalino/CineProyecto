@@ -4,14 +4,24 @@ import java.awt.event.*;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Clase GestionHorarios proporciona una interfaz para gestionar los horarios de películas en el sistema.
+ * Permite agregar, editar, eliminar horarios y muestra una tabla con la información de los horarios existentes.
+ */
 public class GestionHorarios extends JFrame {
     private JTable tableHorarios;
     private JButton btnAgregarHorario;
     private JButton btnEditarHorario;
     private JButton btnEliminarHorario;
     private JButton btnCancelar;
-    AdminWindow adminWindow; // Referencia al AdminWindow
+    private AdminWindow adminWindow; // Referencia al AdminWindow
 
+    /**
+     * Constructor de la clase GestionHorarios.
+     * Inicializa la interfaz de usuario para la gestión de horarios.
+     *
+     * @param adminWindow La instancia de la ventana AdminWindow desde la cual se invoca esta ventana.
+     */
     public GestionHorarios(AdminWindow adminWindow) {
         super("Gestionar Horarios");
         this.adminWindow = adminWindow;
@@ -109,6 +119,10 @@ public class GestionHorarios extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método actualizarTabla.
+     * Actualiza la tabla de horarios con la información obtenida de la base de datos.
+     */
     private void actualizarTabla() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             String query = "SELECT * FROM horarios";
@@ -134,6 +148,12 @@ public class GestionHorarios extends JFrame {
         }
     }
 
+    /**
+     * Método eliminarHorario.
+     * Elimina un horario de la base de datos usando el ID proporcionado.
+     *
+     * @param horarioId El ID del horario a eliminar.
+     */
     private void eliminarHorario(int horarioId) {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk")) {
             String query = "DELETE FROM horarios WHERE id=?";
@@ -148,6 +168,12 @@ public class GestionHorarios extends JFrame {
         }
     }
 
+    /**
+     * Método main.
+     * Punto de entrada para la aplicación. Crea e inicia una instancia de la ventana AdminWindow.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             AdminWindow ventanaAdmin = new AdminWindow();

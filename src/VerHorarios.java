@@ -4,13 +4,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * La clase VerHorarios muestra una ventana que permite al usuario seleccionar una película
+ * y visualizar los horarios disponibles para esa película. También proporciona la opción
+ * de cancelar y volver al menú principal del cliente.
+ */
 public class VerHorarios extends JFrame {
     private JComboBox<String> cmbPeliculas;
     private JButton btnVerHorarios;
     private JButton btnCancelar;
     private JTable tblHorarios;
     private DefaultTableModel modelo;
-
+    /**
+     * Constructor de la clase VerHorarios.
+     * Inicializa la interfaz para mostrar los horarios de las películas y los botones correspondientes.
+     */
     public VerHorarios() {
         super("Ver Horarios");
         setLayout(new BorderLayout());
@@ -77,7 +85,9 @@ public class VerHorarios extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-
+    /**
+     * Carga la lista de películas desde la base de datos y la añade al JComboBox.
+     */
     private void cargarPeliculas() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              Statement stmt = conn.createStatement();
@@ -90,7 +100,9 @@ public class VerHorarios extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar películas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Muestra los horarios disponibles para la película seleccionada en la tabla.
+     */
     private void verHorarios() {
         int peliculaId = getPeliculaId((String) cmbPeliculas.getSelectedItem());
         if (peliculaId == -1) {
@@ -115,7 +127,12 @@ public class VerHorarios extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al ver horarios: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Obtiene el ID de la película a partir del título.
+     *
+     * @param peliculaTitulo El título de la película.
+     * @return El ID de la película, o -1 si no se encuentra.
+     */
     private int getPeliculaId(String peliculaTitulo) {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://ubizbip0ntk5uopb:vFULnkL51YQfK531npMk@b8shaoo2h7ajp78hvm5k-mysql.services.clever-cloud.com:3306/b8shaoo2h7ajp78hvm5k", "ubizbip0ntk5uopb", "vFULnkL51YQfK531npMk");
              Statement stmt = conn.createStatement();
@@ -130,11 +147,20 @@ public class VerHorarios extends JFrame {
 
         return -1;
     }
+    /**
+     * Abre una nueva ventana para el menú del cliente y cierra la ventana actual.
+     */
     private void volverAlMenuCliente() {
         ClientWindow ventanaCliente = new ClientWindow(1); // Reemplaza 1 con el ID de usuario correspondiente
         ventanaCliente.setVisible(true);
         dispose();
     }
+    /**
+     * Método principal para ejecutar la aplicación.
+     * Crea una instancia de VerHorarios y la hace visible.
+     *
+     * @param args Argumentos de línea de comandos (no se utilizan en este caso).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             VerHorarios ventanaVerHorarios = new VerHorarios();
