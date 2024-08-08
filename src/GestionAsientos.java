@@ -26,7 +26,8 @@ public class GestionAsientos extends JFrame {
         btnAgregarAsiento = new JButton("Agregar Asiento");
         btnAgregarAsiento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                agregarAsiento();
+                AgregarAsiento ventanaAgregarAsiento = new AgregarAsiento(GestionAsientos.this);
+                ventanaAgregarAsiento.setVisible(true);
             }
         });
         panelBotones.add(btnAgregarAsiento);
@@ -89,7 +90,7 @@ public class GestionAsientos extends JFrame {
         int selectedRow = tablaAsientos.getSelectedRow();
         if (selectedRow != -1) {
             int asientoId = (int) modeloTabla.getValueAt(selectedRow, 0);
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "123456");
                  PreparedStatement pstmt = con.prepareStatement("DELETE FROM asientos WHERE id = ?")) {
                 pstmt.setInt(1, asientoId);
                 pstmt.executeUpdate();
@@ -107,7 +108,7 @@ public class GestionAsientos extends JFrame {
             String fila = (String) modeloTabla.getValueAt(selectedRow, 2);
             int numero = (int) modeloTabla.getValueAt(selectedRow, 3);
             boolean disponible = (boolean) modeloTabla.getValueAt(selectedRow, 4);
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost/cine_reservas", "root", "123456");
                  PreparedStatement pstmt = con.prepareStatement("UPDATE asientos SET fila = ?, numero = ?, disponible = ? WHERE id = ?")) {
                 pstmt.setString(1, fila);
                 pstmt.setInt(2, numero);
