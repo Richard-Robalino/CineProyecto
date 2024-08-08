@@ -73,6 +73,7 @@ public class AgregarCliente extends JFrame {
                         int filasInsertadas = pstmt.executeUpdate();
                         if (filasInsertadas > 0) {
                             JOptionPane.showMessageDialog(null, "Cliente agregado exitosamente");
+
                             dispose(); // Cierra la ventana actual
                             gestionClientes.setVisible(true); // Abre la ventana de GestionClientes
                         } else {

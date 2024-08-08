@@ -39,7 +39,7 @@ public class GestionClientes extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AgregarCliente ventanaAgregarCliente = new AgregarCliente(GestionClientes.this);
                 ventanaAgregarCliente.setVisible(true);
-                dispose(); // Cierra la ventana actual
+                actualizarTabla(); // Actualiza la tabla después de agregar un cliente
             }
         });
         panelBotones.add(btnAgregarCliente);
@@ -77,7 +77,7 @@ public class GestionClientes extends JFrame {
                     int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este cliente?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         eliminarCliente(clienteId);
-                        actualizarTabla();
+                        actualizarTabla(); // Actualiza la tabla después de eliminar un cliente
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.");
