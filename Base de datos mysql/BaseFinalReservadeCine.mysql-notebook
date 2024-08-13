@@ -1,0 +1,97 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "\\about\n-- Creación de la base de datos\nCREATE DATABASE cine_reservas;\n\n-- Selección de la base de datos\nUSE cine_reservas;\n\n-- Tabla para usuarios (administrador y cliente) con columna de foto\nCREATE TABLE usuarios (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    username VARCHAR(50) NOT NULL,\n    password VARCHAR(50) NOT NULL,\n    rol ENUM('ADMINISTRADOR', 'CLIENTE') NOT NULL\n);\n\n\n-- Tabla para películas\nCREATE TABLE peliculas (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    titulo VARCHAR(100) NOT NULL,\n    duracion INT NOT NULL, -- en minutos\n    descripcion TEXT,\n    clasificacion VARCHAR(10) NOT NULL -- PG, PG-13, R, etc.\n);\n\n-- Tabla para horarios de proyección\nCREATE TABLE horarios (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    pelicula_id INT NOT NULL,\n    fecha DATE NOT NULL,\n    hora TIME NOT NULL,\n    sala INT NOT NULL,\n    disponible BOOLEAN DEFAULT TRUE,\n    FOREIGN KEY (pelicula_id) REFERENCES peliculas(id)\n);\n\n-- Tabla para asientos\nCREATE TABLE asientos (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    sala_id INT NOT NULL,\n    fila VARCHAR(5) NOT NULL,\n    numero INT NOT NULL,\n    disponible BOOLEAN DEFAULT TRUE,\n    FOREIGN KEY (sala_id) REFERENCES horarios(id)\n);\n\n-- Tabla para reservas (corregida)\nCREATE TABLE reservas (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    cliente_id INT NOT NULL,\n    horario_id INT NOT NULL,\n    asiento_id INT NOT NULL,\n    fecha_reserva TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    FOREIGN KEY (cliente_id) REFERENCES usuarios(id),\n    FOREIGN KEY (horario_id) REFERENCES horarios(id),\n    FOREIGN KEY (asiento_id) REFERENCES asientos(id)\n);\n\n-- Inserción de datos en la tabla de usuarios\nINSERT INTO usuarios (username, password, rol) VALUES\n('admin1', 'password1', 'ADMINISTRADOR'),\n('admin2', 'password2', 'ADMINISTRADOR'),\n('cliente1', 'password3', 'CLIENTE'),\n('cliente2', 'password4', 'CLIENTE'),\n('cliente3', 'password5', 'CLIENTE');\n\n-- Inserción de datos en la tabla de películas\nINSERT INTO peliculas (titulo, duracion, descripcion, clasificacion) VALUES\n('Película 1', 120, 'Descripción de la película 1', 'PG'),\n('Película 2', 90, 'Descripción de la película 2', 'PG-13'),\n('Película 3', 150, 'Descripción de la película 3', 'R'),\n('Película 4', 110, 'Descripción de la película 4', 'PG'),\n('Película 5', 130, 'Descripción de la película 5', 'PG-13');\n\n-- Inserción de datos en la tabla de horarios\nINSERT INTO horarios (pelicula_id, fecha, hora, sala) VALUES\n(1, '2024-08-01', '18:00:00', 1),\n(2, '2024-08-01', '20:00:00', 1),\n(3, '2024-08-02', '17:00:00', 2),\n(4, '2024-08-02', '19:00:00', 2),\n(5, '2024-08-03', '21:00:00', 3);\n\n-- Inserción de datos en la tabla de asientos\nINSERT INTO asientos (sala_id, fila, numero) VALUES\n(1, 'A', 1),\n(1, 'A', 2),\n(1, 'A', 3),\n(2, 'B', 1),\n(2, 'B', 2),\n(2, 'B', 3),\n(3, 'C', 1),\n(3, 'C', 2),\n(3, 'C', 3),\n(3, 'C', 4);\n\n-- Inserción de datos en la tabla de reservas\nINSERT INTO reservas (cliente_id, horario_id, asiento_id) VALUES\n(3, 1, 1),\n(4, 2, 2),\n(5, 3, 3),\n(3, 4, 4),\n(4, 5, 5);\n\n\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 13,
+                    "column": 50
+                },
+                "position": {
+                    "lineNumber": 13,
+                    "column": 50
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 1,
+                "column": 1
+            },
+            "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 104,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 0,
+                            "index": 0,
+                            "content": "MySQL Error (1064): ClassicSession.run_sql: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '\\about\n-- Creación de la base de datos\nCREATE DATABASE cine_reservas;\n\n-- Selec' at line 1",
+                            "language": "ansi"
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": ""
+                    }
+                },
+                "currentHeight": 28,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 2988
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        },
+        {
+            "state": {
+                "start": 105,
+                "end": 105,
+                "language": "mysql",
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 0
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}
